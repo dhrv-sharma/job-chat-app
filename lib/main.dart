@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/exports.dart';
+import 'package:jobchat/controllers/login_provider.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
@@ -28,7 +29,9 @@ void main() async {
   // ], child: const MyApp()));
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => OnBoardNotifier())
+    ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
+    ChangeNotifierProvider(create: (context) => LoginNotifier()),
+    ChangeNotifierProvider(create: (context) => SignUpNotifier())
   ], child: const MyApp()));
 }
 

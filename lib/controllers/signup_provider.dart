@@ -1,56 +1,29 @@
 import 'package:flutter/material.dart';
 
-
-
 class SignUpNotifier extends ChangeNotifier {
-// trigger to hide and unhide the password
-  bool _isObsecure = true;
+// paramter for the password
 
-  bool get isObsecure => _isObsecure;
+  bool _obsecure = true;
 
-  set isObsecure(bool obsecure) {
-    _isObsecure = obsecure;
+// function to get parameter
+
+  bool get obsecure => _obsecure;
+
+// fucntion to set parameter value
+
+  set obsecure(bool newState) {
+    _obsecure = newState;
+
     notifyListeners();
   }
 
-// triggered when the login button is clicked to show the loading widget
-  bool _processing = false;
-
-  bool get processing => _processing;
-
-  set processing(bool newValue) {
-    _processing = newValue;
-    notifyListeners();
-  }
-
-// triggered when the fist time when user login to be prompted to the update profile page
-  bool _firstTime = false;
-
-  bool get firstTime => _firstTime;
-
-  set firstTime(bool newValue) {
-    _firstTime = newValue;
-    notifyListeners();
-  }
-
-  final signupFormKey = GlobalKey<FormState>();
-
+// password should more than 8
+//  password should have atleast upper , lower case letter ,special symbol, digit
   bool passwordValidator(String password) {
-  if (password.isEmpty) return false;
-  String pattern =
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-  RegExp regex = RegExp(pattern);
-  return regex.hasMatch(password);
-}
-
-  bool validateAndSave() {
-    final form = signupFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    } else {
-      return false;
-    }
+    if (password.isEmpty) return false;
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = RegExp(pattern);
+    return regex.hasMatch(password);
   }
-
 }
