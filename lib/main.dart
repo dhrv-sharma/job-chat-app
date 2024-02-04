@@ -31,7 +31,8 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
     ChangeNotifierProvider(create: (context) => LoginNotifier()),
-    ChangeNotifierProvider(create: (context) => SignUpNotifier())
+    ChangeNotifierProvider(create: (context) => SignUpNotifier()),
+    ChangeNotifierProvider(create: (context) => ZoomNotifier())
   ], child: const MyApp()));
 }
 

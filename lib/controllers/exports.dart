@@ -14,10 +14,10 @@
 
 // export 'package:jobhub/controllers/zoom_provider.dart';
 
-
 // exporting the file from here
 
 export 'package:jobchat/controllers/onboarding_provider.dart';
 
 export 'package:jobchat/controllers/signup_provider.dart';
 
+export 'package:jobchat/controllers/zoom_provider.dart';
