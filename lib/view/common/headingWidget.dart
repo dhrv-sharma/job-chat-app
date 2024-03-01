@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
@@ -19,13 +20,13 @@ class headingWidget extends StatelessWidget {
       children: [
         reusableText(
             text: text,
-            style: appStyle(20, Color(kDark.value), FontWeight.w600)),
+            style: appStyle(18, Color(kDark.value), FontWeight.w600)),
         GestureDetector(
-          onTap: onTap,
-          child: reusableText(
-              text: "View All",
-              style: appStyle(20, Color(kOrange.value), FontWeight.w600)),
-        )
+            onTap: onTap,
+            child: Icon(
+              AntDesign.appstore_o,
+              color: Colors.grey.shade800,
+            ))
       ],
     );
   }

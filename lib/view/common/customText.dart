@@ -30,7 +30,9 @@ Focused Border (focusedBorder): This border is displayed when the TextFormField 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(kLightGrey.value),
+      decoration: BoxDecoration(
+          color: Color(kLightGrey.value).withOpacity(0.3),
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
       child: TextFormField(
         keyboardType:
             keyBoardType, //  the keyboardType property of the TextFormField widget is used to specify the type of keyboard that should be displayed when the user interacts with the text input field. The keyboardType property takes an instance of the TextInputType
@@ -39,21 +41,27 @@ Focused Border (focusedBorder): This border is displayed when the TextFormField 
         decoration: InputDecoration(
             hintText: hintText,
             suffixIcon: suffixIcon,
-            hintStyle: appStyle(14, Color(kDarkGrey.value), FontWeight.w500),
+            hintStyle: appStyle(
+                14, Color(kDark.value).withOpacity(0.6), FontWeight.w500),
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(color: Colors.red, width: 0.5)),
             focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(color: Colors.transparent, width: 0)),
-            focusedErrorBorder: OutlineInputBorder(
+            focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(
+                  color: Colors.red,
+                  width: 0.5,
+                )),
+            disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
                 borderSide:
                     BorderSide(color: Color(kDarkGrey.value), width: 0.5)),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide:
-                    BorderSide(color: Color(kDarkGrey.value), width: 0.5)),
+                borderSide: BorderSide(color: Colors.transparent, width: 0.5)),
             border: InputBorder.none),
         controller: controller,
         cursorHeight: 25,
