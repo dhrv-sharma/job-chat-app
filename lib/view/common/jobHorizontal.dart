@@ -14,13 +14,17 @@ class jobHorizontalTile extends StatelessWidget {
       required this.company,
       required this.description,
       required this.location,
-      required this.salary});
+      required this.salary,
+      required this.period,
+      required this.imageUrl});
 
   final void Function() onTap;
   final String company;
   final String description;
   final String location;
   final String salary;
+  final String period;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +49,9 @@ class jobHorizontalTile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 25,
-                          backgroundImage:
-                              AssetImage('assets/images/slack.png'),
+                          backgroundImage: NetworkImage(imageUrl),
                         ),
                         const widthSpacer(size: 15),
                         Container(
@@ -86,9 +89,11 @@ class jobHorizontalTile extends StatelessWidget {
                                 style: appStyle(
                                     20, Color(kDark.value), FontWeight.w600)),
                             reusableText(
-                                text: "K/Monthly",
+                                text: "/${period}",
                                 style: appStyle(
-                                    20, Color(kDark.value), FontWeight.w600)),
+                                    18,
+                                    Color(kDark.value).withOpacity(0.6),
+                                    FontWeight.w600)),
                           ],
                         ),
                         CircleAvatar(

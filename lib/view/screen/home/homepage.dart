@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:jobchat/constants/app_constants.dart';
+
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/headingWidget.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
-import 'package:jobchat/view/common/jobHorizontal.dart';
+
 import 'package:jobchat/view/drawer/drawer_widget.dart';
+import 'package:jobchat/view/screen/home/popularJobs.dart';
 import 'package:jobchat/view/screen/home/recentList.dart';
 import 'package:jobchat/view/screen/home/searchWidget.dart';
 
@@ -54,25 +56,11 @@ class _homePageState extends State<homePage> {
               heightSpacer(size: 30.h),
               headingWidget(text: "Popular Jobs", onTap: () {}),
               heightSpacer(size: 15.h),
-
-              SizedBox(
-                height: hieght * 0.28,
-                child: ListView.builder(
-                    itemCount: 7,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return jobHorizontalTile(
-                          onTap: () {},
-                          company: "Google",
-                          description: "Flutter Developer",
-                          location: "NewYork(Remote)",
-                          salary: "35");
-                    }),
-              ),
+              popularJobs(),
               heightSpacer(size: 15.h),
               headingWidget(text: "Recently Posted", onTap: () {}),
               heightSpacer(size: 15.h),
-              // need future builer for api and data fetch from the server
+              // need future builder for api and data fetch from the server
               const recentList()
             ],
           ),
