@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/models/job.dart';
 
 import 'package:jobchat/view/common/jobHorizontal.dart';
+import 'package:jobchat/view/screen/home/homepage.dart';
+import 'package:jobchat/view/screen/job/jobview.dart';
 
 import 'package:provider/provider.dart';
 
@@ -17,6 +21,8 @@ class popularJobs extends StatelessWidget {
       JobsNotifier.getAllJobs();
       return SizedBox(
         height: hieght * 0.28,
+        // <We have to put that parameter on which my UI getting dependent here we are waiting for JobList  >
+
         child: FutureBuilder<List<Job>>(
             future: JobsNotifier.jobList,
             builder: (context, snapshot) {
@@ -36,13 +42,10 @@ class popularJobs extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var mJob = job[index];
                       return jobHorizontalTile(
-                        onTap: () {},
-                        company: mJob.company!,
-                        description: mJob.title,
-                        location: mJob.location,
-                        salary: mJob.salary,
-                        period: mJob.period,
-                        imageUrl: mJob.imageUrl,
+                        onTap: () {
+                          Get.to(() => jobView(job: mJob));
+                        },
+                        job: mJob,
                       );
                     });
               }

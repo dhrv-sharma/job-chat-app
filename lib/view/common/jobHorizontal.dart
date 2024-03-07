@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
+import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/common/widthspacer.dart';
+import 'package:jobchat/view/screen/job/jobview.dart';
 
 class jobHorizontalTile extends StatelessWidget {
-  const jobHorizontalTile(
-      {super.key,
-      required this.onTap,
-      required this.company,
-      required this.description,
-      required this.location,
-      required this.salary,
-      required this.period,
-      required this.imageUrl});
+  const jobHorizontalTile({super.key, required this.onTap, required this.job});
 
   final void Function() onTap;
-  final String company;
-  final String description;
-  final String location;
-  final String salary;
-  final String period;
-  final String imageUrl;
+
+  final Job job;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +42,7 @@ class jobHorizontalTile extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 25,
-                          backgroundImage: NetworkImage(imageUrl),
+                          backgroundImage: NetworkImage(job.imageUrl),
                         ),
                         const widthSpacer(size: 15),
                         Container(
@@ -63,7 +54,7 @@ class jobHorizontalTile extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20.w))),
                           child: reusableText(
-                              text: company,
+                              text: job.company!,
                               style: appStyle(
                                   22, Color(kDark.value), FontWeight.w600)),
                         )
@@ -71,12 +62,12 @@ class jobHorizontalTile extends StatelessWidget {
                     ),
                     const heightSpacer(size: 15),
                     reusableText(
-                        text: description,
+                        text: job.title,
                         style:
                             appStyle(20, Color(kDark.value), FontWeight.w600)),
                     const heightSpacer(size: 5),
                     reusableText(
-                        text: location,
+                        text: job.location,
                         style: appStyle(18, Color(kDark.value).withOpacity(0.6),
                             FontWeight.w600)),
                     Row(
@@ -85,21 +76,26 @@ class jobHorizontalTile extends StatelessWidget {
                         Row(
                           children: [
                             reusableText(
-                                text: "${salary}",
+                                text: "${job.salary}",
                                 style: appStyle(
                                     20, Color(kDark.value), FontWeight.w600)),
                             reusableText(
-                                text: "/${period}",
+                                text: "/${job.period}",
                                 style: appStyle(
                                     18,
                                     Color(kDark.value).withOpacity(0.6),
                                     FontWeight.w600)),
                           ],
                         ),
-                        CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Color(kLight.value),
-                          child: const Icon(Ionicons.chevron_forward),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => jobView(job: job));
+                          },
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Color(kLight.value),
+                            child: const Icon(Ionicons.chevron_forward),
+                          ),
                         )
                       ],
                     ),
