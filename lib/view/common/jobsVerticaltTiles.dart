@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:jobchat/constants/app_constants.dart';
+import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/common/widthspacer.dart';
 
 class JobsVerticalTile extends StatelessWidget {
-  const JobsVerticalTile({super.key});
+  const JobsVerticalTile({super.key, required this.job, required this.onTap});
+
+  final Job job;
+
+  final void Function() onTap;
 
   // it will recieve an model of job from the recentlist
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Container(
@@ -34,9 +39,9 @@ class JobsVerticalTile extends StatelessWidget {
                   Row(
                     children: [
                       // need to change the network image recive from the server
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage('assets/images/slack.png'),
+                        backgroundImage: NetworkImage(job.imageUrl),
                       ),
                       widthSpacer(size: 10.w),
                       Column(
@@ -45,14 +50,14 @@ class JobsVerticalTile extends StatelessWidget {
                         children: [
                           // company name
                           reusableText(
-                              text: "Google",
+                              text: job.company!,
                               style: appStyle(
                                   18, Color(kDark.value), FontWeight.w500)),
                           // job title
                           SizedBox(
                             width: width * 0.5,
                             child: reusableText(
-                                text: "Flutter Full Stack  Developer",
+                                text: job.title,
                                 style: appStyle(
                                     16,
                                     Color(kDark.value).withOpacity(0.6),
@@ -60,7 +65,7 @@ class JobsVerticalTile extends StatelessWidget {
                           ),
                           // salary  with period
                           reusableText(
-                              text: "25k per month",
+                              text: "${job.salary}/${job.period}",
                               style: appStyle(
                                   16, Color(kDark.value), FontWeight.w500)),
                         ],

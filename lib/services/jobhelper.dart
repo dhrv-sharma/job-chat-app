@@ -9,7 +9,7 @@ class jobHelper {
   static var client = https.Client();
 
   // get all the jobs function
-  //  Job is model
+  // Job is model
   // /api/job/
   static Future<List<Job>> getJobs() async {
     // used for the communication
@@ -58,6 +58,32 @@ class jobHelper {
       return job;
     } else {
       throw Exception('Faliled To Load Job ');
+    }
+  }
+
+  // get recent job from the server
+  static Future<List<Job>> getRecentJobs() async {
+    // used for the communication
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    // url which you get through the new=true
+    var url = Uri.https(Config.apiUrl, Config.job, {"new": "true"});
+    // return list
+    List<Job> jobList = [];
+    // get the data from the backend
+    var response = await client.get(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      // decoded in to the list containing map items
+      List res = jsonDecode(response.body);
+      res.forEach((element) {
+        // map items to job object
+        jobList.add(Job.fromJson(element));
+      });
+      return jobList;
+    } else {
+      throw Exception('Faliled To Load Jobs ');
     }
   }
 }

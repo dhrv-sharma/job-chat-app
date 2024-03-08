@@ -4,11 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/models/job.dart';
-
 import 'package:jobchat/view/common/jobHorizontal.dart';
-import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:jobchat/view/screen/job/jobview.dart';
-
 import 'package:provider/provider.dart';
 
 class popularJobs extends StatelessWidget {

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:jobchat/constants/app_constants.dart';
-
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/headingWidget.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
-
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/home/popularJobs.dart';
 import 'package:jobchat/view/screen/home/recentList.dart';
@@ -56,7 +53,9 @@ class _homePageState extends State<homePage> {
               heightSpacer(size: 30.h),
               headingWidget(text: "Popular Jobs", onTap: () {}),
               heightSpacer(size: 15.h),
-              popularJobs(),
+              ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12.w)),
+                  child: popularJobs()),
               heightSpacer(size: 15.h),
               headingWidget(text: "Recently Posted", onTap: () {}),
               heightSpacer(size: 15.h),
