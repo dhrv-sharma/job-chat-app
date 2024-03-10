@@ -8,6 +8,7 @@ import 'package:jobchat/controllers/login_provider.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
+
 import 'package:provider/provider.dart';
 
 // imports

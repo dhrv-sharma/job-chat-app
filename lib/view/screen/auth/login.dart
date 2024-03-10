@@ -13,7 +13,8 @@ import 'package:jobchat/view/common/customeButton.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/registerPage.dart';
-import 'package:jobchat/view/screen/home/homepage.dart';
+
+import 'package:jobchat/view/screen/home/mainscreen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -116,7 +117,7 @@ class _loginPageState extends State<loginPage> {
                     customButton(
                         text: "Login",
                         onTap: () {
-                          Get.to(() => const homePage());
+                          Get.to(() => const mainScreen());
                         })
                   ]),
                 ),

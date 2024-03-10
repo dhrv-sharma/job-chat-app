@@ -17,7 +17,7 @@ class NoSearchResults extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/images,optimized_search.png"),
+          Image.asset("assets/images/optimized_search.png"),
           const widthSpacer(size: 20),
           reusableText(
               text: message,

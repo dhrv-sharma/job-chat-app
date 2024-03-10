@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/headingWidget.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
+import 'package:jobchat/view/screen/home/popularJobPage.dart';
 import 'package:jobchat/view/screen/home/popularJobs.dart';
 import 'package:jobchat/view/screen/home/recentList.dart';
+import 'package:jobchat/view/screen/home/recentlyPostedPage.dart';
+import 'package:jobchat/view/screen/home/searchPage.dart';
 import 'package:jobchat/view/screen/home/searchWidget.dart';
 
 class homePage extends StatefulWidget {
@@ -49,15 +53,25 @@ class _homePageState extends State<homePage> {
                 style: appStyle(38, Color(kDark.value), FontWeight.bold),
               ),
               heightSpacer(size: 20.h),
-              searchWidget(onTap: () {}),
+              searchWidget(onTap: () {
+                Get.to(() => const searchPage());
+              }),
               heightSpacer(size: 30.h),
-              headingWidget(text: "Popular Jobs", onTap: () {}),
+              headingWidget(
+                  text: "Popular Jobs",
+                  onTap: () {
+                    Get.to(() => const popularJobsList());
+                  }),
               heightSpacer(size: 15.h),
               ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(12.w)),
-                  child: popularJobs()),
+                  child: const popularJobs()),
               heightSpacer(size: 15.h),
-              headingWidget(text: "Recently Posted", onTap: () {}),
+              headingWidget(
+                  text: "Recently Posted",
+                  onTap: () {
+                    Get.to(() => const recentlyJobList());
+                  }),
               heightSpacer(size: 15.h),
               // need future builder for api and data fetch from the server
               const recentList()

@@ -19,7 +19,7 @@ class _drawerScreenState extends State<drawerScreen> {
   Widget build(BuildContext context) {
     return Consumer<ZoomNotifier>(builder: (context, zoomNotifier, child) {
       return GestureDetector(
-        onDoubleTap: () {
+        onTap: () {
           // when we double tap on the empty area the drawer should be closed
           ZoomDrawer.of(context)!.toggle();
         },

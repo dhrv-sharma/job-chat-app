@@ -8,9 +8,10 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var zoomDrawer = ZoomDrawer.of(context);
     return GestureDetector(
       onTap: () {
-        ZoomDrawer.of(context)!.toggle();
+        zoomDrawer!.toggle();
       },
       child: SvgPicture.asset(
         "assets/icons/menu.svg",

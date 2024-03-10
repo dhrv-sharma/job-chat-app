@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class reusableText extends StatelessWidget {
-  const reusableText({super.key, required this.text, required this.style});
+  reusableText(
+      {super.key, required this.text, required this.style, this.overflow});
 
   final String text;
   final TextStyle style;
+  bool? overflow = false;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class reusableText extends StatelessWidget {
       maxLines: 1,
       softWrap: false,
       textAlign: TextAlign.left,
-      overflow: TextOverflow.fade,
+      overflow: overflow ?? false ? TextOverflow.visible : TextOverflow.fade,
       style: style,
     );
   }

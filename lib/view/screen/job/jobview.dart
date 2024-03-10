@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -11,6 +9,7 @@ import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
 import 'package:jobchat/view/common/custom_outline_btn.dart';
 import 'package:jobchat/view/common/customappBar.dart';
+import 'package:jobchat/view/common/custome_outline_btn.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
@@ -118,11 +117,11 @@ class _jobViewState extends State<jobView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            customOutlineButton(
+                                            CustomOutlineBtn(
                                                 width: width * 0.26,
-                                                height: hieght * 0.04,
+                                                hieght: hieght * 0.04,
                                                 text: job.contract,
-                                                color1: Color(kOrange.value)),
+                                                color: Color(kOrange.value)),
                                             Row(
                                               children: [
                                                 reusableText(
