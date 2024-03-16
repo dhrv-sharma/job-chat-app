@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:jobchat/constants/app_constants.dart';
-import 'package:jobchat/controllers/jobs_provider.dart';
+
 import 'package:jobchat/models/job.dart';
 import 'package:jobchat/services/jobhelper.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/customefield.dart';
 import 'package:jobchat/view/common/jobsVerticaltTiles.dart';
 import 'package:jobchat/view/common/pageloader.dart';
-import 'package:jobchat/view/common/uploadedTile.dart';
-import 'package:jobchat/view/screen/home/recentList.dart';
+
 import 'package:jobchat/view/screen/job/jobview.dart';
-import 'package:provider/provider.dart';
 
 class searchPage extends StatefulWidget {
   const searchPage({super.key});

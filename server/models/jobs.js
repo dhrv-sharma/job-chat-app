@@ -1,6 +1,7 @@
 const mongoose= require('mongoose');
 
 // time stamps is used in the case when the object is created it actuals store the time of creation as well
+// here comapny name is not getting stored
 const JobSchema= new mongoose.Schema({
     title : {
         type:String,
@@ -48,6 +49,7 @@ const JobSchema= new mongoose.Schema({
         required:true
     },
     
+    // In this example, when you save a document using YourModel, Mongoose automatically adds the createdAt and updatedAt fields to the document, which will be updated accordingly.
 
 },{timestamps : true});
 

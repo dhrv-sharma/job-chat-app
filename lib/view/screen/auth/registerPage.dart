@@ -10,6 +10,7 @@ import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/customeButton.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
+import 'package:jobchat/view/screen/auth/login.dart';
 import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,9 @@ class _registerPageState extends State<registerPage> {
                   text: "Sign up",
                   actions: const [],
                   child: GestureDetector(
-                    onTap: null,
+                    onTap: () {
+                      Get.offAll(() => const loginPage());
+                    },
                     child: const Icon(CupertinoIcons.arrow_left),
                   ))),
           body: buildStyleContainer(
@@ -119,7 +122,9 @@ class _registerPageState extends State<registerPage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
-                        onTap: null,
+                        onTap: () {
+                          Get.to(const loginPage());
+                        },
                         child: reusableText(
                             text: "Log in",
                             style: appStyle(

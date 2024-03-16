@@ -69,6 +69,7 @@ class jobHelper {
     };
 
     // url which you get through the new=true
+    // here the new is a query parameter new
     var url = Uri.https(Config.apiUrl, Config.job, {"new": "true"});
     // return list
     List<Job> jobList = [];

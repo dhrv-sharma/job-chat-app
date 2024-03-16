@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -49,8 +48,10 @@ class _loginPageState extends State<loginPage> {
                   text: "Login",
                   actions: const [],
                   child: GestureDetector(
-                    onTap: null,
-                    child: const Icon(Icons.arrow_back_ios_new_rounded),
+                    onTap: () {
+                      Get.offAll(() => const mainScreen());
+                    },
+                    child: const Icon(Icons.arrow_back),
                   ))),
           body: buildStyleContainer(
               context,
