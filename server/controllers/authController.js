@@ -99,7 +99,7 @@ const login=async (req,res)=>{
 
         // exporting the data
         // The password and isAdmin properties are extracted from the user._doc object and stored in variables with the same names.
-// All other properties of the user._doc object are gathered into a new object called others, excluding password and isAdmin.
+        // All other properties of the user._doc object are gathered into a new object called others, excluding password and isAdmin.
         const {password,isAdmin,...others} = user._doc;
 
         // not returning 

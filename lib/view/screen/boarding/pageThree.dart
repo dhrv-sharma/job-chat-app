@@ -13,6 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class pageThree extends StatelessWidget {
   const pageThree({super.key});
 
+  void boardedDone() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("entrypoint", true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +52,13 @@ class pageThree extends StatelessWidget {
                   width: width * 0.4,
                   height: hieght * 0.06,
                   onTap: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setBool("entrypoint", true);
-                    Get.to(() => const loginPage());
+                    boardedDone();
+                    Get.to(() => loginPage());
                   },
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    boardedDone();
                     Get.to(() => const registerPage());
                   },
                   child: Container(

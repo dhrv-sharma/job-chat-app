@@ -8,8 +8,10 @@ import 'package:jobchat/controllers/login_provider.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
+import 'package:jobchat/view/screen/home/mainscreen.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // imports
 //  screenutil , google fonts , provider, smooth page indicator for onboard screen indicators
@@ -30,23 +32,37 @@ void main() async {
   //   // ChangeNotifierProvider(create: (context) => ProfileNotifier()),
   // ], child: const MyApp()));
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
-    ChangeNotifierProvider(create: (context) => LoginNotifier()),
-    ChangeNotifierProvider(create: (context) => SignUpNotifier()),
-    ChangeNotifierProvider(create: (context) => ZoomNotifier()),
-    ChangeNotifierProvider(create: (context) => JobsNotifier())
-  ], child: const MyApp()));
+  bool check = false;
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.getBool("entrypoint") == true) {
+    check = true;
+  } else {
+    check = false;
+  }
+
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
+        ChangeNotifierProvider(create: (context) => LoginNotifier()),
+        ChangeNotifierProvider(create: (context) => SignUpNotifier()),
+        ChangeNotifierProvider(create: (context) => ZoomNotifier()),
+        ChangeNotifierProvider(create: (context) => JobsNotifier())
+      ],
+      child: MyApp(
+        check: check,
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-  });
+  MyApp({super.key, required this.check});
+
+  bool check;
 
   @override
   Widget build(BuildContext context) {
     //  screen util is used for adaptive size and remove resoultion problem
+
     return ScreenUtilInit(
         useInheritedMediaQuery: true,
         designSize: const Size(375, 812),
@@ -56,13 +72,13 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'JobHub',
-            // setting the color of the common parramters
+            // setting the color of the common paramters
             theme: ThemeData(
               scaffoldBackgroundColor: Color(kLight.value),
               iconTheme: IconThemeData(color: Color(kDark.value)),
               primarySwatch: Colors.grey,
             ),
-            home: const OnBoardingScreen(),
+            home: check ? const mainScreen() : const OnBoardingScreen(),
           );
         });
   }

@@ -10,6 +10,7 @@ import 'package:jobchat/view/common/customText.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/customeButton.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
+import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/registerPage.dart';
 
@@ -33,9 +34,9 @@ class _loginPageState extends State<loginPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     email.dispose();
     password.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,76 +54,79 @@ class _loginPageState extends State<loginPage> {
                     },
                     child: const Icon(Icons.arrow_back),
                   ))),
-          body: buildStyleContainer(
-              context,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Form(
-                  child: ListView(padding: EdgeInsets.zero, children: [
-                    const heightSpacer(size: 50),
-                    reusableText(
-                        text: "Welcome Back",
-                        style:
-                            appStyle(30, Color(kDark.value), FontWeight.w600)),
-                    reusableText(
-                        text: "Fill in the Details to login to  your account",
-                        style: appStyle(
-                            14, Color(kDarkGrey.value), FontWeight.w400)),
-                    const heightSpacer(size: 40),
-                    customTextField(
-                        hintText: "Enter Your Email",
-                        suffixIcon: const Icon(Icons.email_outlined),
-                        keyBoardType: TextInputType.emailAddress,
-                        controller: email,
-                        validator: (email) {
-                          if (email!.isEmpty || !email.contains("@")) {
-                            return "Please Enter Your Email";
-                          }
-                          return null;
-                        },
-                        obsecureText: false),
-                    const heightSpacer(size: 20),
-                    customTextField(
-                        hintText: "Password",
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            loginNotifer.obsecure = !loginNotifer.obsecure;
-                          },
-                          child: !loginNotifer.obsecure
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                        ),
-                        keyBoardType: TextInputType.text,
-                        controller: password,
-                        validator: (password) {
-                          if (password!.isEmpty || password.length > 6) {
-                            return "Please Enter a Valid Passwors";
-                          }
-                          return null;
-                        },
-                        obsecureText: loginNotifer.obsecure),
-                    const heightSpacer(size: 10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => const registerPage());
-                        },
-                        child: reusableText(
-                            text: "Register",
+          body: loginNotifer.loader
+              ? const PageLoader()
+              : buildStyleContainer(
+                  context,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Form(
+                      child: ListView(padding: EdgeInsets.zero, children: [
+                        const heightSpacer(size: 50),
+                        reusableText(
+                            text: "Welcome Back",
                             style: appStyle(
-                                14, Color(kDark.value), FontWeight.w400)),
-                      ),
+                                30, Color(kDark.value), FontWeight.w600)),
+                        reusableText(
+                            text:
+                                "Fill in the Details to login to  your account",
+                            style: appStyle(
+                                14, Color(kDarkGrey.value), FontWeight.w400)),
+                        const heightSpacer(size: 40),
+                        customTextField(
+                            hintText: "Enter Your Email",
+                            suffixIcon: const Icon(Icons.email_outlined),
+                            keyBoardType: TextInputType.emailAddress,
+                            controller: email,
+                            validator: (email) {
+                              if (email!.isEmpty || !email.contains("@")) {
+                                return "Please Enter Your Email";
+                              }
+                              return null;
+                            },
+                            obsecureText: false),
+                        const heightSpacer(size: 20),
+                        customTextField(
+                            hintText: "Password",
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                loginNotifer.obsecure = !loginNotifer.obsecure;
+                              },
+                              child: !loginNotifer.obsecure
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
+                            ),
+                            keyBoardType: TextInputType.text,
+                            controller: password,
+                            validator: (password) {
+                              if (password!.isEmpty || password.length > 6) {
+                                return "Please Enter a Valid Passwors";
+                              }
+                              return null;
+                            },
+                            obsecureText: loginNotifer.obsecure),
+                        const heightSpacer(size: 10),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(() => const registerPage());
+                            },
+                            child: reusableText(
+                                text: "Register",
+                                style: appStyle(
+                                    14, Color(kDark.value), FontWeight.w400)),
+                          ),
+                        ),
+                        const heightSpacer(size: 50),
+                        customButton(
+                            text: "Login",
+                            onTap: () {
+                              Get.to(() => const mainScreen());
+                            })
+                      ]),
                     ),
-                    const heightSpacer(size: 50),
-                    customButton(
-                        text: "Login",
-                        onTap: () {
-                          Get.to(() => const mainScreen());
-                        })
-                  ]),
-                ),
-              )));
+                  )));
     });
   }
 }
