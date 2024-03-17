@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class authHelper {
   static var client = https.Client();
 
-  static Future<bool> signUp(model) async {
+  static Future<bool> signUp(String model) async {
     try {
       // step 1 headers required
       Map<String, String> requestHeaders = {
@@ -19,7 +19,7 @@ class authHelper {
       var response =
           await client.post(url, headers: requestHeaders, body: model);
 
-// creating status cdode
+      // checking status cdode
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -30,34 +30,28 @@ class authHelper {
     }
   }
 
-  static Future<bool> login(model) async {
-    try {
-      // step 1 headers required
-      Map<String, String> requestHeaders = {
-        'Content-Type': 'application/json',
-      };
+  static Future<bool> login(String model) async {
+    // step 1 headers required
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
 
-      var url = Uri.https(Config.apiUrl, Config.loginUrl);
+    var url = Uri.https(Config.apiUrl, Config.loginUrl);
 
-      var response =
-          await client.post(url, headers: requestHeaders, body: model);
+    var response = await client.post(url, headers: requestHeaders, body: model);
 
-// creating status cdode
-      if (response.statusCode == 200) {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        var user = loginResponseModelFromJson(response.body);
-        await prefs.setString('token', user.userToken);
-        await prefs.setString('userId', user.id);
-        await prefs.setString('profile', user.profile);
-        await prefs.setString('username', user.username);
-        await prefs.setBool('loggedIn', true);
-        print("log in success");
+    // checking status cdode
+    if (response.statusCode == 200) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var user = loginResponseModelFromJson(response.body);
+      await prefs.setString('token', user.userToken);
+      await prefs.setString('userId', user.id);
+      await prefs.setString('profile', user.profile);
+      await prefs.setString('username', user.username);
+      await prefs.setBool('loggedIn', true);
 
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
+      return true;
+    } else {
       return false;
     }
   }

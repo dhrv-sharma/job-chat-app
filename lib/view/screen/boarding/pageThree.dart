@@ -8,6 +8,7 @@ import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/login.dart';
 import 'package:jobchat/view/screen/auth/registerPage.dart';
+import 'package:jobchat/view/screen/home/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class pageThree extends StatelessWidget {
@@ -75,9 +76,15 @@ class pageThree extends StatelessWidget {
               ],
             ),
             const heightSpacer(size: 30),
-            reusableText(
-                text: "Continue as guest",
-                style: appStyle(16, Color(kLight.value), FontWeight.w600))
+            GestureDetector(
+              onTap: () {
+                boardedDone();
+                Get.to(() => const mainScreen());
+              },
+              child: reusableText(
+                  text: "Continue as guest",
+                  style: appStyle(16, Color(kLight.value), FontWeight.w600)),
+            )
           ],
         ),
       ),

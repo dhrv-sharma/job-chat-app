@@ -41,6 +41,19 @@ void main() async {
     check = false;
   }
 
+  var username = prefs.getString('username') ?? '';
+
+  var userId = prefs.getString('userId') ?? '';
+
+  var profile = prefs.getString('profile') ??
+      'https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg';
+
+  userNameConst = username;
+
+  userIdConst = userId;
+
+  profileConst = profile;
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => OnBoardNotifier()),

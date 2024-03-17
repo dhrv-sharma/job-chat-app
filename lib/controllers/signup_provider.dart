@@ -67,6 +67,9 @@ class SignUpNotifier extends ChangeNotifier {
   }
 
 
+  // loader notifier
+
+
   bool _loader = false;
 
 
@@ -84,7 +87,6 @@ class SignUpNotifier extends ChangeNotifier {
 
 
 // validating form
-
 
   final signupFormKey = GlobalKey<FormState>();
 
@@ -108,6 +110,9 @@ class SignUpNotifier extends ChangeNotifier {
     }
 
   }
+
+
+// sign up function
 
 
   signup(String model) {

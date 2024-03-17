@@ -44,13 +44,13 @@ Focused Border (focusedBorder): This border is displayed when the TextFormField 
             hintStyle: appStyle(
                 14, Color(kDark.value).withOpacity(0.6), FontWeight.w500),
             errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
+                borderRadius: BorderRadius.all(Radius.circular(6)),
                 borderSide: BorderSide(color: Colors.red, width: 0.5)),
             focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(color: Colors.transparent, width: 0)),
             focusedErrorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
+                borderRadius: BorderRadius.all(Radius.circular(6)),
                 borderSide: BorderSide(
                   color: Colors.red,
                   width: 0.5,

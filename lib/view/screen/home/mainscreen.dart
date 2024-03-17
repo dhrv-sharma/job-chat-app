@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/exports.dart';
+import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/view/screen/bookmark/bookmark.dart';
 import 'package:jobchat/view/screen/chat/chatpage.dart';
 import 'package:jobchat/view/screen/devicemgmt/devicemgmt.dart';
@@ -44,6 +45,7 @@ class _mainScreenState extends State<mainScreen> {
     // accessing the provider content of controller Zoom Notifer
     // initial current index value is zero hence home page will be open
     var zoomNotifier = Provider.of<ZoomNotifier>(context);
+
     switch (zoomNotifier.currentIndex) {
       case 0:
         return const homePage();

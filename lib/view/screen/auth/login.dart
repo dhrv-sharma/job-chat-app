@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/login_provider.dart';
+import 'package:jobchat/models/auth/login.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
 import 'package:jobchat/view/common/customText.dart';
@@ -17,6 +18,7 @@ import 'package:jobchat/view/screen/auth/registerPage.dart';
 import 'package:jobchat/view/screen/home/mainscreen.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({super.key});
@@ -29,6 +31,7 @@ class _loginPageState extends State<loginPage> {
   // controller for the text field
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   // method to dispose them
   @override
@@ -61,6 +64,7 @@ class _loginPageState extends State<loginPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Form(
+                      key: _formKey,
                       child: ListView(padding: EdgeInsets.zero, children: [
                         const heightSpacer(size: 50),
                         reusableText(
@@ -99,8 +103,8 @@ class _loginPageState extends State<loginPage> {
                             keyBoardType: TextInputType.text,
                             controller: password,
                             validator: (password) {
-                              if (password!.isEmpty || password.length > 6) {
-                                return "Please Enter a Valid Passwors";
+                              if (password!.isEmpty) {
+                                return "Please Enter a Valid Password";
                               }
                               return null;
                             },
@@ -122,7 +126,23 @@ class _loginPageState extends State<loginPage> {
                         customButton(
                             text: "Login",
                             onTap: () {
-                              Get.to(() => const mainScreen());
+                              if (_formKey.currentState!.validate()) {
+                                loginNotifer.loader = true;
+                                LoginModel model = LoginModel(
+                                    email: email.text, password: password.text);
+                                String newModel = loginModelToJson(model);
+                                loginNotifer.login(newModel);
+                              } else {
+                                Get.snackbar("Invalid Fields",
+                                    "Please check your Credentials",
+                                    colorText: Color(kLight.value),
+                                    backgroundColor: Color(kOrange.value),
+                                    icon: const Icon(
+                                      Icons.add_alert,
+                                      color: Colors.white,
+                                    ),
+                                    borderRadius: 5);
+                              }
                             })
                       ]),
                     ),

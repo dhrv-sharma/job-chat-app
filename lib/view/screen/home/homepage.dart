@@ -32,9 +32,9 @@ class _homePageState extends State<homePage> {
               actions: [
                 Padding(
                   padding: EdgeInsets.all(12.h),
-                  child: const CircleAvatar(
-                    radius: 15,
-                    backgroundImage: AssetImage("assets/images/user.png"),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(profileConst),
                   ),
                 )
               ],
