@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/exports.dart';
-import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/view/screen/bookmark/bookmark.dart';
 import 'package:jobchat/view/screen/chat/chatpage.dart';
 import 'package:jobchat/view/screen/devicemgmt/devicemgmt.dart';

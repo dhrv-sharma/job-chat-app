@@ -65,10 +65,10 @@ class LoginNotifier extends ChangeNotifier {
 // logged In notifer
 
 
-  bool? _loggedIn;
+  bool _loggedIn = loggedInconst;
 
 
-  bool get loggedIn => _loggedIn ?? false;
+  bool get loggedIn => _loggedIn;
 
 
   set loggedIn(bool newState) {
@@ -143,7 +143,92 @@ class LoginNotifier extends ChangeNotifier {
   }
 
 
+// logout functionality just removing out the shared presference
+
+
+  logout() async {
+
+    try {
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+      await prefs.remove('token');
+
+
+      await prefs.remove('username');
+
+
+      await prefs.remove('userId');
+
+
+      await prefs.remove('profile');
+
+
+      await prefs.setBool('loggedIn', false);
+
+
+      _loggedIn = false;
+
+
+      loggedInconst = false;
+
+
+      userNameConst = "";
+
+
+      userIdConst = "";
+
+
+      profileConst =
+
+          "https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg";
+
+
+      Get.snackbar("Logout Successfull", "Make Sure you Login ",
+
+          colorText: Color(kLight.value),
+
+          backgroundColor: Colors.green,
+
+          icon: const Icon(
+
+            Icons.add_alert,
+
+            color: Colors.white,
+
+          ),
+
+          borderRadius: 5);
+
+    } catch (e) {
+
+      // TODO
+
+
+      Get.snackbar("Unable To Log Out", "Please try again",
+
+          colorText: Color(kLight.value),
+
+          backgroundColor: Color(kOrange.value),
+
+          icon: const Icon(
+
+            Icons.add_alert,
+
+            color: Colors.white,
+
+          ),
+
+          borderRadius: 5);
+
+    }
+
+  }
+
+
 // setting up the constant
+
 
   getPref() async {
 
@@ -156,10 +241,13 @@ class LoginNotifier extends ChangeNotifier {
     // var entrypoint = prefs.getBool('entrypoint') ?? false;
 
 
-    var loggedIn = prefs.getBool("loggedin") ?? false;
+    var loggedIn = prefs.getBool("loggedIn") ?? false;
 
 
-    _loggedIn = loggedIn;
+    print(loggedIn);
+
+
+    _loggedIn = true;
 
 
     var username = prefs.getString('username') ?? '';

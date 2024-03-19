@@ -18,7 +18,6 @@ import 'package:jobchat/view/screen/auth/registerPage.dart';
 import 'package:jobchat/view/screen/home/mainscreen.dart';
 
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({super.key});

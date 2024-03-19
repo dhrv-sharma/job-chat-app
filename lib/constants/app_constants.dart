@@ -89,6 +89,8 @@ String userNameConst = "";
 String userIdConst = "";
 
 
-String profileConst =
-    "https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg";
+String profileConst = "";
+
+
+bool loggedInconst = false;
 

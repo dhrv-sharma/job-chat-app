@@ -13,7 +13,6 @@ import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/login.dart';
-import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:provider/provider.dart';
 
 class registerPage extends StatefulWidget {

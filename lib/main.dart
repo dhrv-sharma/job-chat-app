@@ -5,6 +5,7 @@ import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
+import 'package:jobchat/controllers/profile_provider.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
@@ -48,11 +49,15 @@ void main() async {
   var profile = prefs.getString('profile') ??
       'https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg';
 
+  var loggedIn = prefs.getBool('loggedIn') ?? false;
+
   userNameConst = username;
 
   userIdConst = userId;
 
   profileConst = profile;
+
+  loggedInconst = loggedIn;
 
   runApp(MultiProvider(
       providers: [
@@ -60,7 +65,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => LoginNotifier()),
         ChangeNotifierProvider(create: (context) => SignUpNotifier()),
         ChangeNotifierProvider(create: (context) => ZoomNotifier()),
-        ChangeNotifierProvider(create: (context) => JobsNotifier())
+        ChangeNotifierProvider(create: (context) => JobsNotifier()),
+        ChangeNotifierProvider(create: (context) => ProfileNotifier())
       ],
       child: MyApp(
         check: check,

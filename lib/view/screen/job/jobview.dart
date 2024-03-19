@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
+import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
@@ -27,6 +28,7 @@ class jobView extends StatefulWidget {
 class _jobViewState extends State<jobView> {
   @override
   Widget build(BuildContext context) {
+    var loginNotifier = Provider.of<LoginNotifier>(context);
     return Consumer<JobsNotifier>(
       builder: (context, jobsNotifier, child) {
         jobsNotifier.getJob(widget.job.id);
@@ -36,15 +38,17 @@ class _jobViewState extends State<jobView> {
               child: CustomAppbar(
                   text: "",
                   actions: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 14.w),
-                        child: const Icon(
-                          Fontisto.bookmark,
-                        ),
-                      ),
-                    )
+                    loginNotifier.loggedIn == false
+                        ? const SizedBox.shrink()
+                        : GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 14.w),
+                              child: const Icon(
+                                Fontisto.bookmark,
+                              ),
+                            ),
+                          )
                   ],
                   child: const BackButton())),
           body: buildStyleContainer(
@@ -196,7 +200,9 @@ class _jobViewState extends State<jobView> {
                               child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: customOutlineButton(
-                                    text: "Please Login",
+                                    text: loginNotifier.loggedIn == false
+                                        ? "Please Login"
+                                        : "Apply now",
                                     height: hieght * 0.06,
                                     color1: Color(kLight.value),
                                     color2: Color(kOrange.value),

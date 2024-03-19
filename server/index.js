@@ -8,6 +8,8 @@ const mongoose= require('mongoose');
 const jobRouter=require('./routes/job_router');
 const bodyparser=require('body-parser');
 const authRouter=require('./routes/auth_router');
+const bookMarkRouter=require('./routes/bookmark_routes');
+
 
 
 // middleware to encode and decoding the json
@@ -21,6 +23,8 @@ app.use('/api/job',jobRouter);
 
 //  middleware when /api/auth is  called
 app.use('/api/auth',authRouter);
+app.use('/api/bookmark',bookMarkRouter);
+
 
 
 // default port is 5003 from dot env but not found then local 3000 will be there

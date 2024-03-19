@@ -61,7 +61,7 @@ class _drawerScreenState extends State<drawerScreen> {
               drawerItem(
                   indexSetter: widget.indexSetter,
                   icon: MaterialCommunityIcons.devices,
-                  text: "Device Mgmt",
+                  text: "Applications",
                   index: 3,
                   color: zoomNotifier.currentIndex == 3
                       ? Color(kLight.value)

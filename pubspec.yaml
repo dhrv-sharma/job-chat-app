@@ -44,6 +44,7 @@ dependencies:
   flutter_zoom_drawer: ^3.2.0
   flutter_vector_icons: ^2.0.0
   flutter_svg: ^2.0.5
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:
