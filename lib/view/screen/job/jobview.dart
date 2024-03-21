@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:jobchat/constants/app_constants.dart';
+import 'package:jobchat/controllers/bookmark_provider.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
+import 'package:jobchat/models/bookmark.dart/book_res.dart';
+import 'package:jobchat/models/bookmark.dart/bookmarks_model.dart';
 import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
@@ -40,14 +43,31 @@ class _jobViewState extends State<jobView> {
                   actions: [
                     loginNotifier.loggedIn == false
                         ? const SizedBox.shrink()
-                        : GestureDetector(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 14.w),
-                              child: const Icon(
-                                Fontisto.bookmark,
-                              ),
-                            ),
+                        : Consumer<BookMarkNotifier>(
+                            builder: (context, bookNotifier, child) {
+                              bookNotifier.getBookMark(widget.job.id);
+                              return GestureDetector(
+                                onTap: () {
+                                  if (bookNotifier.bookmarkget == true) {
+                                    bookNotifier.deleteBookMark(
+                                        bookNotifier.bookmarkIdGet);
+                                  } else {
+                                    BookMarkReqRes model =
+                                        BookMarkReqRes(job: widget.job.id);
+                                    var encModel = bookMarkReqResToJson(model);
+                                    bookNotifier.addBookMark(encModel);
+                                  }
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 14.w),
+                                  child: Icon(
+                                    bookNotifier.bookmarkget == true
+                                        ? Fontisto.bookmark_alt
+                                        : Fontisto.bookmark,
+                                  ),
+                                ),
+                              );
+                            },
                           )
                   ],
                   child: const BackButton())),

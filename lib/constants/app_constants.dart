@@ -83,6 +83,9 @@ List<String> skills = [
 // profile data set through login notifier
 
 
+bool entrypoint = false;
+
+
 String userNameConst = "";
 
 

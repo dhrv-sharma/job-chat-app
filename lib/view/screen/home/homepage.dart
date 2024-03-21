@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
+import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/customappBar.dart';
@@ -26,7 +27,8 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
-    String imageurl = profileConst;
+    var loginNotfier = Provider.of<LoginNotifier>(context);
+    loginNotfier.getData();
     return Consumer<ProfileNotifier>(
         builder: (context, profileNotifier, child) {
       return Scaffold(

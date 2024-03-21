@@ -230,6 +230,37 @@ class LoginNotifier extends ChangeNotifier {
 // setting up the constant
 
 
+  getData() async {
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    _loggedIn = prefs.getBool("loggedIn") ?? false;
+
+
+    var username = prefs.getString('username') ?? '';
+
+
+    var userId = prefs.getString('userId') ?? '';
+
+
+    var profile = prefs.getString('profile') ?? '';
+
+
+    userNameConst = username;
+
+
+    userIdConst = userId;
+
+
+    profileConst = profile;
+
+
+    entrypoint = prefs.getBool('entrypoint') ?? false;
+
+  }
+
+
   getPref() async {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -242,9 +273,6 @@ class LoginNotifier extends ChangeNotifier {
 
 
     var loggedIn = prefs.getBool("loggedIn") ?? false;
-
-
-    print(loggedIn);
 
 
     _loggedIn = true;

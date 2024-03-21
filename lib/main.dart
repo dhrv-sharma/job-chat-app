@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
+import 'package:jobchat/controllers/bookmark_provider.dart';
 import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
@@ -66,7 +67,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => SignUpNotifier()),
         ChangeNotifierProvider(create: (context) => ZoomNotifier()),
         ChangeNotifierProvider(create: (context) => JobsNotifier()),
-        ChangeNotifierProvider(create: (context) => ProfileNotifier())
+        ChangeNotifierProvider(create: (context) => ProfileNotifier()),
+        ChangeNotifierProvider(create: (context) => BookMarkNotifier())
       ],
       child: MyApp(
         check: check,
