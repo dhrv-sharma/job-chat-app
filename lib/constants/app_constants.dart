@@ -34,6 +34,12 @@ const kLightPurple = Color(0xff6352c5);
 const kDarkPurple = Color(0xff6352c5);
 
 
+const kBlueColor = Color(0xFF3281E3);
+
+
+const kGreen = Color(0xFFEFFFFC);
+
+
 double hieght = 812.h;
 
 

@@ -71,6 +71,7 @@ class bookMarkHelper {
       bookmark.forEach((element) {
         marks.add(AllBookMarks.fromJson(element));
       });
+
       return marks;
     } else {
       throw Exception('Failed To Load Your Book Mark');

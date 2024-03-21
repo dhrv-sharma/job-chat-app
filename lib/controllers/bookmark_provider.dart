@@ -186,9 +186,12 @@ class BookMarkNotifier extends ChangeNotifier {
 // get all the book marks of the user
 
 
-  getBookMarks() {
+  Future<List<AllBookMarks>?> getBookMarks() {
 
     userBookMarks = bookMarkHelper.getAllBookMarks();
+
+
+    return userBookMarks;
 
   }
 

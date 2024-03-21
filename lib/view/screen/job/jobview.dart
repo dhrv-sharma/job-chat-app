@@ -6,7 +6,6 @@ import 'package:jobchat/controllers/bookmark_provider.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/models/bookmark.dart/book_res.dart';
-import 'package:jobchat/models/bookmark.dart/bookmarks_model.dart';
 import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
@@ -20,9 +19,10 @@ import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:provider/provider.dart';
 
 class jobView extends StatefulWidget {
-  const jobView({super.key, required this.job});
+  const jobView({super.key, this.job, this.jobId});
 
-  final Job job;
+  final Job? job;
+  final String? jobId;
 
   @override
   State<jobView> createState() => _jobViewState();
@@ -34,7 +34,13 @@ class _jobViewState extends State<jobView> {
     var loginNotifier = Provider.of<LoginNotifier>(context);
     return Consumer<JobsNotifier>(
       builder: (context, jobsNotifier, child) {
-        jobsNotifier.getJob(widget.job.id);
+        String id;
+        if (widget.job == null) {
+          id = widget.jobId!;
+        } else {
+          id = widget.job!.id;
+        }
+        jobsNotifier.getJob(id);
         return Scaffold(
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(50),
@@ -45,7 +51,7 @@ class _jobViewState extends State<jobView> {
                         ? const SizedBox.shrink()
                         : Consumer<BookMarkNotifier>(
                             builder: (context, bookNotifier, child) {
-                              bookNotifier.getBookMark(widget.job.id);
+                              bookNotifier.getBookMark(id);
                               return GestureDetector(
                                 onTap: () {
                                   if (bookNotifier.bookmarkget == true) {
@@ -53,7 +59,7 @@ class _jobViewState extends State<jobView> {
                                         bookNotifier.bookmarkIdGet);
                                   } else {
                                     BookMarkReqRes model =
-                                        BookMarkReqRes(job: widget.job.id);
+                                        BookMarkReqRes(job: id);
                                     var encModel = bookMarkReqResToJson(model);
                                     bookNotifier.addBookMark(encModel);
                                   }

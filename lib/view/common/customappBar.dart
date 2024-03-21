@@ -9,17 +9,21 @@ class CustomAppbar extends StatelessWidget {
       {super.key,
       required this.text,
       required this.child,
-      required this.actions});
+      required this.actions,
+      this.color,
+      this.textColor});
 
   final String text;
   final Widget child;
   final List<Widget> actions;
+  final Color? color;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: const IconThemeData(),
-      backgroundColor: Color(kLight.value),
+      backgroundColor: color ?? Color(kLight.value),
       elevation: 0,
       automaticallyImplyLeading: false,
       //Specifies the width of the leading widget. It's set to 70.w, which suggests that it might be a responsive width based on the screen size or device width.
@@ -31,7 +35,8 @@ class CustomAppbar extends StatelessWidget {
       centerTitle: true,
       title: reusableText(
           text: text.toString(),
-          style: appStyle(16, Color(kDark.value), FontWeight.bold)),
+          style:
+              appStyle(16, textColor ?? Color(kDark.value), FontWeight.w600)),
     );
   }
 }
