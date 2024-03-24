@@ -27,18 +27,26 @@ class _bookaMarkState extends State<bookaMark> {
   Widget build(BuildContext context) {
     var loginNotifier = Provider.of<LoginNotifier>(context);
     return Scaffold(
-      backgroundColor: Color(kBlueColor.value),
+      backgroundColor: loginNotifier.loggedIn == false
+          ? Color(kLight.value)
+          : Color(kBlueColor.value),
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(50.h),
           child: CustomAppbar(
-            color: Color(kBlueColor.value),
-            textColor: Color(kLight.value),
-            text: loginNotifier.loggedIn == false ? "" : "Bookmarks",
+            color: loginNotifier.loggedIn == false
+                ? Color(kLight.value)
+                : Color(kBlueColor.value),
+            textColor: loginNotifier.loggedIn == false
+                ? Color(kDark.value)
+                : Color(kLight.value),
+            text: "Bookmarks",
             actions: const [],
             child: Padding(
                 padding: EdgeInsets.all(12.0.h),
                 child: DrawerWidget(
-                  color: Color(kLight.value),
+                  color: loginNotifier.loggedIn == false
+                      ? Color(kDark.value)
+                      : Color(kLight.value),
                 )),
           )),
       body: loginNotifier.loggedIn == false

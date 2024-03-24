@@ -1,6 +1,7 @@
 // need http package for the connection with api
 import 'package:http/http.dart' as https;
 import 'package:jobchat/models/auth/login_response.dart';
+import 'package:jobchat/models/auth/profile_model.dart';
 import 'package:jobchat/services/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,6 +54,39 @@ class authHelper {
       return true;
     } else {
       return false;
+    }
+  }
+
+// get profile user function
+  static Future<ProfileRes?> getProfile() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No authentication token provided");
+    }
+
+    // step 1 headers required here we doing our authorization
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    // /api/user/
+    var url = Uri.https(Config.apiUrl, Config.profileUrl);
+
+    // get
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    // checking status cdode
+    if (response.statusCode == 200) {
+      var profile = profileResFromJson(response.body);
+      return profile;
+    } else {
+      throw Exception('Failed To Load Profile');
     }
   }
 }

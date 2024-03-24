@@ -22,7 +22,8 @@ class nonUser extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(99.w)),
               child: CachedNetworkImage(
-                imageUrl: profileConst,
+                imageUrl:
+                    'https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg',
                 fit: BoxFit.cover,
                 width: 70.w,
                 height: 70.w,
