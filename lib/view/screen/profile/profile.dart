@@ -129,7 +129,7 @@ class _profilePageState extends State<profilePage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           reusableText(
-                                              text: 'Agent Section',
+                                              text: 'Agent Information',
                                               style: appStyle(
                                                   14,
                                                   Color(kDark.value),
@@ -139,7 +139,7 @@ class _profilePageState extends State<profilePage> {
                                               hieght: 40.h,
                                               width: width,
                                               onTap: () {},
-                                              text: "Want To Hire ",
+                                              text: "Add Job",
                                               color: Color(kOrange.value)),
                                           const heightSpacer(size: 10),
                                           CustomOutlineBtn(
