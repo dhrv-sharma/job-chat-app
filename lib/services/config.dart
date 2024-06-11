@@ -9,8 +9,10 @@ class Config {
   static const String getprofileUrl = "/api/users";
   static const String bookmarkUrlCreate = "/api/bookmark/create";
   static const String bookmarkUrl = "/api/bookmark/";
-
+  static const String skillUrl = "api/user/getSkill";
   static const String singleBookmarkUrl = "/api/bookmark/single/";
   static const String chatsUrl = "/api/chats";
   static const String messagingUrl = "/api/messages";
+  static const String deleteSkill = "/api/user/deleteSkill/";
+  static const String addSkill = "/api/user/addSkill";
 }

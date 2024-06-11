@@ -7,6 +7,7 @@ import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
 import 'package:jobchat/models/auth/profile_model.dart';
+import 'package:jobchat/models/auth/skills.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
@@ -18,6 +19,7 @@ import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/common/widthspacer.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
+import 'package:jobchat/view/screen/profile/skills.dart';
 import 'package:provider/provider.dart';
 
 class profilePage extends StatefulWidget {
@@ -39,7 +41,7 @@ class _profilePageState extends State<profilePage> {
     );
     if (loginNotifier.loggedIn) {
       // get our data
-      print("getting profile Data");
+
       profileNotifier.profileSet();
       myProfile = profileNotifier.getProfile;
     }
@@ -79,9 +81,7 @@ class _profilePageState extends State<profilePage> {
                                   color: Color(kGreen.value),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(12.2))),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              child: Stack(
                                 children: [
                                   Row(
                                     children: [
@@ -111,16 +111,22 @@ class _profilePageState extends State<profilePage> {
                                         ],
                                       ),
                                       const widthSpacer(size: 25),
-                                      GestureDetector(
+                                    ],
+                                  ),
+                                  Positioned(
+                                      right: 0..w,
+                                      top: 0.w,
+                                      bottom: 0.w,
+                                      child: GestureDetector(
                                         onTap: () {},
                                         child: const Icon(Feather.edit),
-                                      )
-                                    ],
-                                  )
+                                      ))
                                 ],
                               ),
                             ),
-                            const heightSpacer(size: 20),
+                            const heightSpacer(size: 10),
+                            const skillWidget(),
+                            const heightSpacer(size: 15),
                             Column(
                               children: [
                                 !prof.isAgent
@@ -128,6 +134,8 @@ class _profilePageState extends State<profilePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          resume(),
+                                          const heightSpacer(size: 20),
                                           reusableText(
                                               text: 'Agent Information',
                                               style: appStyle(
@@ -150,12 +158,20 @@ class _profilePageState extends State<profilePage> {
                                               color: Color(kOrange.value))
                                         ],
                                       )
-                                    : CustomOutlineBtn(
-                                        hieght: 40.h,
-                                        width: width,
-                                        onTap: () {},
-                                        text: "Apply To Become An Agent",
-                                        color: Color(kOrange.value)),
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          resume(),
+                                          const heightSpacer(size: 20),
+                                          CustomOutlineBtn(
+                                              hieght: 40.h,
+                                              width: width,
+                                              onTap: () {},
+                                              text: "Apply To Become An Agent",
+                                              color: Color(kOrange.value)),
+                                        ],
+                                      ),
                               ],
                             ),
                             const heightSpacer(size: 20),
@@ -216,28 +232,82 @@ class circularAvtr extends StatelessWidget {
 
 // resume
 
-// Center(
-//               child: Padding(
-//                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-//                 child: Consumer<LoginNotifier>(
-//                   builder: (context, loginNotifier, child) {
-//                     return CustomOutlineBtn(
-//                         hieght: 40.h,
-//                         width: width,
-//                         onTap: () {
-//                           loginNotifier.logout();
-//                           var zoomNotifier =
-//                               Provider.of<ZoomNotifier>(context, listen: false);
-//                           zoomNotifier.currentIndex = 0;
-//                           var profileNotifier = Provider.of<ProfileNotifier>(
-//                               context,
-//                               listen: false);
-//                           profileNotifier.profileImage =
-//                               "https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg";
-//                         },
-//                         text: "Proceed To Logout",
-//                         color: Color(kOrange.value));
-//                   },
-//                 ),
-//               ),
-//             ),
+class resume extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: width,
+          height: hieght * 0.12,
+          decoration: BoxDecoration(
+              color: Color(kGreen.value),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(12),
+              )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 12.w),
+                width: 60.w,
+                height: 70.h,
+                decoration: BoxDecoration(
+                  color: Color(kLight.value),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                ),
+                child: const Icon(
+                  FontAwesome.file_pdf_o,
+                  color: Colors.red,
+                  size: 40,
+                ),
+              ),
+              const widthSpacer(
+                size: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  reusableText(
+                      text: "Upload Your Resume",
+                      style: appStyle(16, Color(kDark.value), FontWeight.w500)),
+                  FittedBox(
+                    child: Text(
+                      "Please make your to upload your resume in PDF Format",
+                      style:
+                          appStyle(8, Color(kDarkGrey.value), FontWeight.w500),
+                    ),
+                  )
+                ],
+              ),
+              const widthSpacer(size: 1)
+            ],
+          ),
+        ),
+        Positioned(right: 0.w, child: const editButton())
+      ],
+    );
+  }
+}
+
+class editButton extends StatelessWidget {
+  const editButton({super.key, this.onTap});
+
+  final void Function()? onTap;
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+            color: Color(kOrange.value),
+            borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(9), bottomLeft: Radius.circular(9))),
+        child: reusableText(
+            text: " Edit ",
+            style: appStyle(12, Color(kLight.value), FontWeight.w500)),
+      ),
+    );
+  }
+}

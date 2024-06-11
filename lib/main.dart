@@ -7,6 +7,7 @@ import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
+import 'package:jobchat/controllers/skills_provider.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
@@ -69,7 +70,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ZoomNotifier()),
         ChangeNotifierProvider(create: (context) => JobsNotifier()),
         ChangeNotifierProvider(create: (context) => ProfileNotifier()),
-        ChangeNotifierProvider(create: (context) => BookMarkNotifier())
+        ChangeNotifierProvider(create: (context) => BookMarkNotifier()),
+        ChangeNotifierProvider(create: (context) => skillsNotifier())
       ],
       child: MyApp(
         check: check,

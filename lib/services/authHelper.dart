@@ -2,6 +2,7 @@
 import 'package:http/http.dart' as https;
 import 'package:jobchat/models/auth/login_response.dart';
 import 'package:jobchat/models/auth/profile_model.dart';
+import 'package:jobchat/models/auth/skills.dart';
 import 'package:jobchat/services/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,6 +88,98 @@ class authHelper {
       return profile;
     } else {
       throw Exception('Failed To Load Profile');
+    }
+  }
+
+  static Future<List<Skills>> getSkills() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No Authentication Done");
+    }
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    var url = Uri.https(Config.apiUrl, Config.skillUrl);
+
+    try {
+      var response = await client.get(
+        url,
+        headers: requestHeaders,
+      );
+      if (response.statusCode == 200) {
+        var skills = skillsFromJson(response.body);
+        return skills;
+      } else {
+        throw Exception('Failed To Load Profile');
+      }
+    } catch (e) {
+      throw Exception('Failed To Load Profile');
+    }
+  }
+
+  static Future<bool> deleteSkills(String id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No Authentication Done");
+    }
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    var url = Uri.https(Config.apiUrl, "${Config.deleteSkill}$id");
+
+    try {
+      var response = await client.delete(
+        url,
+        headers: requestHeaders,
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print("something went wrong");
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+// add skill function
+  static Future<bool> addSkills(String model) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception("No Authentication Done");
+    }
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    var url = Uri.https(Config.apiUrl, Config.addSkill);
+
+    try {
+      var response =
+          await client.post(url, headers: requestHeaders, body: model);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
     }
   }
 }
