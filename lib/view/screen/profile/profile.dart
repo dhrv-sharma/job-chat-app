@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
 import 'package:jobchat/models/auth/profile_model.dart';
-import 'package:jobchat/models/auth/skills.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
@@ -19,6 +19,7 @@ import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/common/widthspacer.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
+import 'package:jobchat/view/screen/job/addJobs.dart';
 import 'package:jobchat/view/screen/profile/skills.dart';
 import 'package:provider/provider.dart';
 
@@ -162,12 +163,24 @@ class _profilePageState extends State<profilePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          reusableText(
+                                              text: 'Profile',
+                                              style: appStyle(
+                                                  14,
+                                                  Color(kDark.value),
+                                                  FontWeight.w600)),
+                                          const heightSpacer(size: 20),
                                           resume(),
                                           const heightSpacer(size: 20),
                                           CustomOutlineBtn(
                                               hieght: 40.h,
                                               width: width,
-                                              onTap: () {},
+                                              onTap: () {
+                                                // warning to change function
+                                                Get.to(() => addJobPage(
+                                                      imageUrl: prof.profile,
+                                                    ));
+                                              },
                                               text: "Apply To Become An Agent",
                                               color: Color(kOrange.value)),
                                         ],

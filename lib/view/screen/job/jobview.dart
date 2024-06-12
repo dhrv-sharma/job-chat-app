@@ -200,7 +200,8 @@ class _jobViewState extends State<jobView> {
                                   height: hieght * 0.6,
                                   child: ListView.builder(
                                       itemCount: job.requirements.length,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         var requirement =
                                             job.requirements[index];

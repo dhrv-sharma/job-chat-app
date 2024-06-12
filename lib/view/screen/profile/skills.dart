@@ -112,7 +112,7 @@ class _skillWidgetState extends State<skillWidget> {
                                       FontWeight.w500)),
                             )
                           : ListView.builder(
-                              itemCount: skills!.length,
+                              itemCount: skills.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 var indSkil = skills[index];
