@@ -45,6 +45,10 @@ dependencies:
   flutter_vector_icons: ^2.0.0
   flutter_svg: ^2.0.5
   cached_network_image: ^3.3.1
+  file_picker: ^6.1.1
+  cloudinary_public: ^0.21.0
+
+  
 
 dev_dependencies:
   flutter_test:
