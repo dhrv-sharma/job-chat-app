@@ -17,4 +17,5 @@ class Config {
   static const String messagingUrl = "/api/messages";
   static const String deleteSkill = "/api/user/deleteSkill/";
   static const String addSkill = "/api/user/addSkill";
+  static const String updateProfile = "/api/user/update";
 }

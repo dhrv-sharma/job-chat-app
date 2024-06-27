@@ -21,6 +21,7 @@ import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
 import 'package:jobchat/view/screen/job/addJobs.dart';
 import 'package:jobchat/view/screen/profile/skills.dart';
+import 'package:jobchat/view/screen/profile/updateProfile.dart';
 import 'package:provider/provider.dart';
 
 class profilePage extends StatefulWidget {
@@ -119,7 +120,9 @@ class _profilePageState extends State<profilePage> {
                                       top: 0.w,
                                       bottom: 0.w,
                                       child: GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.to(updateProfile(profile: prof));
+                                        },
                                         child: const Icon(Feather.edit),
                                       ))
                                 ],

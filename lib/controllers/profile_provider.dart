@@ -1,40 +1,19 @@
 import 'dart:io';
-
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/controllers/exports.dart';
-
 import 'package:jobchat/services/jobhelper.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:jobchat/constants/app_constants.dart';
-
 import 'package:jobchat/models/auth/profile_model.dart';
-
 import 'package:jobchat/services/authHelper.dart';
-import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:jobchat/view/screen/home/mainscreen.dart';
-
-import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileNotifier extends ChangeNotifier {
-  late Future<ProfileRes?> myProfile;
-
-  String _profileImage = profileConst;
-
-  String get profileImage => _profileImage;
-
-  set profileImage(String url) {
-    _profileImage = url;
-
-    notifyListeners();
-  }
-
   bool companyLogo = false;
 
   bool get _companyLogo => companyLogo;
@@ -45,13 +24,12 @@ class ProfileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-// picking iamges from the gallery
+// picking images from the gallery for adding job
   File? newJobImg;
 
   File? get _newJobImg => newJobImg;
 
   void newJobImage() async {
-    print("called");
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(type: FileType.image);
 
@@ -78,17 +56,10 @@ class ProfileNotifier extends ChangeNotifier {
       CloudinaryResponse res = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(newJobImg!.path, folder: agentName));
       uploadedImage = res.secureUrl;
-      print("exit");
       addJob(model, context);
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  Future<ProfileRes?> get getProfile => myProfile;
-
-  void profileSet() {
-    myProfile = authHelper.getProfile();
   }
 
   void addJob(String model, BuildContext context) {
@@ -107,7 +78,95 @@ class ProfileNotifier extends ChangeNotifier {
         var zoomNotifier = Provider.of<ZoomNotifier>(context, listen: false);
         zoomNotifier.currentIndex = 0;
 
-        Get.to(const mainScreen());
+        Get.offAll(const mainScreen());
+      } else {
+        Get.snackbar("Something went Wrong", "Please try again",
+            colorText: Color(kLight.value),
+            backgroundColor: Color(kOrange.value),
+            icon: const Icon(
+              Icons.add_alert,
+              color: Colors.white,
+            ),
+            borderRadius: 5);
+      }
+    });
+  }
+
+  late Future<ProfileRes?> myProfile;
+
+  String _profileImage = profileConst;
+
+  String get profileImage => _profileImage;
+
+  set profileImage(String url) {
+    _profileImage = url;
+
+    notifyListeners();
+  }
+
+  Future<ProfileRes?> get getProfile => myProfile;
+
+  void profileSet() {
+    myProfile = authHelper.getProfile();
+  }
+
+  File? editProfilePicture;
+  String? uploadedProfile;
+
+  bool editProfile = false;
+  bool get _edited => editProfile;
+
+  File? get _editProfilePicture => editProfilePicture;
+
+  void selectPicture() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+
+    if (result != null) {
+      File file = File(result.files.first.path!);
+      editProfilePicture = file;
+      editProfile = true;
+      notifyListeners();
+      return;
+    }
+
+    editProfile = false;
+  }
+
+  Future uploadProfile(String userName) async {
+    try {
+      final cloudinary = CloudinaryPublic("dap69mong", "rwdctipx");
+      CloudinaryResponse res = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(editProfilePicture!.path, folder: userName));
+      uploadedProfile = res.secureUrl;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void updateProfile(String model, BuildContext context, ProfileRes res) async {
+    authHelper.updateProfile(model).then((response) async {
+      if (response == true) {
+        Get.snackbar(
+            "Profile Updated", "Now People can see your updated Profile",
+            colorText: Color(kLight.value),
+            backgroundColor: Colors.green,
+            icon: const Icon(
+              Icons.add_alert,
+              color: Colors.white,
+            ),
+            borderRadius: 5);
+
+        var zoomNotifier = Provider.of<ZoomNotifier>(context, listen: false);
+        zoomNotifier.currentIndex = 4;
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        profileImage = res.profile;
+
+        await prefs.setString('profile', res.profile);
+        await prefs.setString('username', res.username);
+
+        Get.offAll(const mainScreen());
       } else {
         Get.snackbar("Something went Wrong", "Please try again",
             colorText: Color(kLight.value),

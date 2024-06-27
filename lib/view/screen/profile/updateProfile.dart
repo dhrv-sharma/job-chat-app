@@ -1,63 +1,52 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
-import 'package:jobchat/models/create_job.dart';
+import 'package:jobchat/models/auth/profile_model.dart';
+import 'package:jobchat/services/authHelper.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
 import 'package:jobchat/view/common/custom_outline_btn.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
-import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 
-class addJobPage extends StatefulWidget {
-  addJobPage({super.key, this.imageUrl, this.name});
+class updateProfile extends StatefulWidget {
+  updateProfile({super.key, required this.profile});
 
-  String? imageUrl;
-  String? name;
+  ProfileRes profile;
 
   @override
-  State<addJobPage> createState() => _addJobPageState();
+  State<updateProfile> createState() => _updateProfileState();
 }
 
-class _addJobPageState extends State<addJobPage> {
-  TextEditingController title = TextEditingController();
-  TextEditingController location = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController agentName = TextEditingController();
-  TextEditingController salary = TextEditingController();
-  TextEditingController contract = TextEditingController();
-  TextEditingController company = TextEditingController();
-  TextEditingController period = TextEditingController();
+class _updateProfileState extends State<updateProfile> {
+  TextEditingController userName = TextEditingController();
 
-  TextEditingController rq1 = TextEditingController();
-  TextEditingController rq2 = TextEditingController();
-  TextEditingController rq3 = TextEditingController();
-  TextEditingController rq4 = TextEditingController();
+  TextEditingController Email = TextEditingController();
 
-  TextEditingController rq5 = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     super.dispose();
-    title.dispose();
-    location.dispose();
-    description.dispose();
-    agentName.dispose();
-    salary.dispose();
-    contract.dispose();
-    company.dispose();
-    rq1.dispose();
-    rq2.dispose();
-    rq3.dispose();
-    rq4.dispose();
-    rq5.dispose();
+    userName.dispose();
+    Email.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Email.text = widget.profile.email;
+    userName.text = widget.profile.username;
   }
 
   @override
@@ -69,12 +58,12 @@ class _addJobPageState extends State<addJobPage> {
           child: CustomAppbar(
               color: Color(kLightBlue.value),
               textColor: Colors.white,
-              text: "Add A Job",
+              text: "Update Profile",
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: circularAvtr(
-                      image: widget.imageUrl!, width: 40, height: 40),
+                      image: widget.profile.profile, width: 40, height: 40),
                 ),
               ],
               child: Padding(
@@ -117,7 +106,7 @@ class _addJobPageState extends State<addJobPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   reusableText(
-                                      text: "Company Logo",
+                                      text: "Profile Picture",
                                       style: appStyle(15, Color(kOrange.value),
                                           FontWeight.w500)),
                                   GestureDetector(
@@ -127,11 +116,11 @@ class _addJobPageState extends State<addJobPage> {
                                 ],
                               ),
                               const heightSpacer(size: 5),
-                              profileNotifier.companyLogo
+                              profileNotifier.editProfile
                                   ? Center(
                                       child: GestureDetector(
                                         onTap: () {
-                                          profileNotifier.newJobImage();
+                                          profileNotifier.selectPicture();
                                         },
                                         child: Container(
                                           width: 150,
@@ -148,7 +137,8 @@ class _addJobPageState extends State<addJobPage> {
                                           ),
                                           child: ClipOval(
                                             child: Image.file(
-                                              profileNotifier.newJobImg!,
+                                              profileNotifier
+                                                  .editProfilePicture!,
                                               width: 150,
                                               height: 150,
                                               fit: BoxFit.cover,
@@ -157,92 +147,47 @@ class _addJobPageState extends State<addJobPage> {
                                         ),
                                       ),
                                     )
-                                  : GestureDetector(
-                                      onTap: () async {
-                                        profileNotifier.newJobImage();
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: const Icon(
-                                          Icons.folder_open,
-                                          size: 60,
+                                  : Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          profileNotifier.selectPicture();
+                                        },
+                                        child: Container(
+                                          width: 150,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            color: Colors
+                                                .white, // Background color
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color:
+                                                  Colors.white, // Border color
+                                              width: 4, // Border width
+                                            ),
+                                          ),
+                                          child: ClipOval(
+                                            child: Image.network(
+                                              widget.profile.profile,
+                                              width: 150,
+                                              height: 150,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                               const heightSpacer(size: 5),
                               buildtextField(
-                                hintText: "Job Title*",
-                                controller: title,
-                                label: "Title",
+                                hintText: "User Name*",
+                                controller: userName,
+                                label: "User Name",
                               ),
                               buildtextField(
-                                hintText: "Location*",
-                                controller: location,
-                                label: "Location",
+                                hintText: "Email*",
+                                controller: Email,
+                                label: "Email",
                               ),
-                              buildtextField(
-                                hintText: "Description*",
-                                controller: description,
-                                label: "Description",
-                                maxLines: 6,
-                              ),
-                              buildtextField(
-                                hintText: "Agent Name*",
-                                controller: agentName,
-                                label: "Agent Name",
-                              ),
-                              buildtextField(
-                                hintText: "Salary*",
-                                controller: salary,
-                                label: "Salary",
-                              ),
-                              buildtextField(
-                                hintText: "weekly | Monthly | Annually *",
-                                controller: period,
-                                label: "Salary Period",
-                                maxLines: 1,
-                              ),
-                              buildtextField(
-                                hintText: "Contract*",
-                                controller: contract,
-                                label: "Contract",
-                              ),
-                              buildtextField(
-                                hintText: "Company*",
-                                controller: company,
-                                label: "Company",
-                              ),
-                              const heightSpacer(size: 20),
-                              reusableText(
-                                  text: "Requirements",
-                                  style: appStyle(15, Color(kOrange.value),
-                                      FontWeight.w500)),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq1,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq2,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq3,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq4,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq5,
-                                maxLines: 2,
-                              ),
-                              const heightSpacer(size: 70)
+                              const heightSpacer(size: 15),
                             ],
                           ),
                         ),
@@ -252,38 +197,40 @@ class _addJobPageState extends State<addJobPage> {
                             bottom: 10,
                             child: GestureDetector(
                               onTap: () async {
-                                if (_formKey.currentState!.validate() &&
-                                    profileNotifier.companyLogo) {
-                                  Center(
-                                    child: Container(
-                                        height: 40, child: const PageLoader()),
-                                  );
+                                if (_formKey.currentState!.validate()) {
+                                  ProfileRes res;
 
-                                  CreateJobsRequest rawModel =
-                                      CreateJobsRequest(
-                                          title: title.text,
-                                          location: location.text,
-                                          company: company.text,
-                                          hiring: true,
-                                          description: description.text,
-                                          salary: salary.text,
-                                          period: period.text,
-                                          contract: contract.text,
-                                          imageUrl:
-                                              profileNotifier.uploadedImage,
-                                          agentId: userIdConst,
-                                          agentName: agentName.text,
-                                          requirements: [
-                                        rq1.text,
-                                        rq2.text,
-                                        rq3.text,
-                                        rq4.text,
-                                        rq5.text,
-                                      ]);
+                                  if (profileNotifier.editProfilePicture !=
+                                      null) {
+                                    await profileNotifier
+                                        .uploadProfile(userName.text);
+                                    res = ProfileRes(
+                                        id: widget.profile.id,
+                                        username: userName.text,
+                                        email: Email.text,
+                                        isAgent: widget.profile.isAgent,
+                                        skills: skills,
+                                        profile:
+                                            profileNotifier.uploadedProfile!);
+                                    var model = createprofileRequestToJson(res);
 
-                                  var model = createJobsRequestToJson(rawModel);
-                                  await profileNotifier.uploadImage(
-                                      agentName.text, model, context);
+                                    profileNotifier.updateProfile(
+                                        model, context, res);
+                                  } else {
+                                    await profileNotifier
+                                        .uploadProfile(userName.text);
+                                    res = ProfileRes(
+                                        id: widget.profile.id,
+                                        username: userName.text,
+                                        email: Email.text,
+                                        isAgent: widget.profile.isAgent,
+                                        skills: skills,
+                                        profile: widget.profile.profile);
+                                    var model = createprofileRequestToJson(res);
+
+                                    profileNotifier.updateProfile(
+                                        model, context, res);
+                                  }
                                 } else {
                                   Get.snackbar("Invalid fields",
                                       "Please fill out every fields",
@@ -297,7 +244,7 @@ class _addJobPageState extends State<addJobPage> {
                                 }
                               },
                               child: customOutlineButton(
-                                text: "Post Job",
+                                text: "Update My Profile",
                                 height: hieght * 0.06,
                                 color1: Color(kLight.value),
                                 color2: Color(kOrange.value),
@@ -314,7 +261,6 @@ class _addJobPageState extends State<addJobPage> {
   }
 }
 
-// text field for the upload a job page
 class buildtextField extends StatelessWidget {
   buildtextField(
       {super.key,
