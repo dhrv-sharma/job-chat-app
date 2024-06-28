@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/models/auth/login.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
-import 'package:jobchat/view/common/customText.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/customeButton.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
+import 'package:jobchat/view/common/newTextField.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/registerPage.dart';
-
 import 'package:jobchat/view/screen/home/mainscreen.dart';
-
 import 'package:provider/provider.dart';
 
 class loginPage extends StatefulWidget {
@@ -76,21 +73,22 @@ class _loginPageState extends State<loginPage> {
                             style: appStyle(
                                 14, Color(kDarkGrey.value), FontWeight.w400)),
                         const heightSpacer(size: 40),
-                        customTextField(
+                        buildtextField(
                             hintText: "Enter Your Email",
-                            suffixIcon: const Icon(Icons.email_outlined),
-                            keyBoardType: TextInputType.emailAddress,
+                            type: TextInputType.emailAddress,
                             controller: email,
+                            suffixIcon: const Icon(Icons.email_outlined),
+                            obsecureText: false,
                             validator: (email) {
                               if (email!.isEmpty || !email.contains("@")) {
                                 return "Please Enter Your Email";
                               }
                               return null;
-                            },
-                            obsecureText: false),
+                            }),
                         const heightSpacer(size: 20),
-                        customTextField(
-                            hintText: "Password",
+                        buildtextField(
+                            hintText: "Enter your password",
+                            controller: password,
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 loginNotifer.obsecure = !loginNotifer.obsecure;
@@ -99,15 +97,14 @@ class _loginPageState extends State<loginPage> {
                                   ? const Icon(Icons.visibility)
                                   : const Icon(Icons.visibility_off),
                             ),
-                            keyBoardType: TextInputType.text,
-                            controller: password,
+                            obsecureText: loginNotifer.obsecure,
                             validator: (password) {
                               if (password!.isEmpty) {
                                 return "Please Enter a Valid Password";
                               }
                               return null;
                             },
-                            obsecureText: loginNotifer.obsecure),
+                            type: TextInputType.text),
                         const heightSpacer(size: 10),
                         Align(
                           alignment: Alignment.centerRight,

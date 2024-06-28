@@ -7,15 +7,15 @@ String createprofileRequestToJson(ProfileRes data) =>
     json.encode(data.toJson());
 
 class ProfileRes {
-  ProfileRes({
-    required this.id,
-    required this.username,
-    required this.email,
-    // required this.isAdmin,
-    required this.isAgent,
-    required this.skills,
-    required this.profile,
-  });
+  ProfileRes(
+      {required this.id,
+      required this.username,
+      required this.email,
+      // required this.isAdmin,
+      required this.isAgent,
+      required this.skills,
+      required this.profile,
+      required this.resume});
 
   final String id;
   final String username;
@@ -24,22 +24,19 @@ class ProfileRes {
   final bool isAgent;
   final List<dynamic> skills;
   final String profile;
+  final String resume;
 
   factory ProfileRes.fromJson(Map<String, dynamic> json) => ProfileRes(
-        id: json["_id"],
+      id: json["_id"],
+      username: json["username"],
+      email: json["email"],
 
-        username: json["username"],
+      // isAdmin: json["isAdmin"],
 
-        email: json["email"],
-
-        // isAdmin: json["isAdmin"],
-
-        isAgent: json["isAgent"],
-
-        skills: json['skills'],
-
-        profile: json["profile"],
-      );
+      isAgent: json["isAgent"],
+      skills: json['skills'],
+      profile: json["profile"],
+      resume: json["resume"]);
 
   Map<String, dynamic> toJson() => {
         "username": username,
@@ -47,6 +44,7 @@ class ProfileRes {
         "id": id,
         "isAgent": isAgent,
         "profile": profile,
+        "resume": resume,
         "skills": List<dynamic>.from(skills.map((x) => x))
       };
 }

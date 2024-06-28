@@ -6,10 +6,10 @@ import 'package:jobchat/controllers/exports.dart';
 import 'package:jobchat/models/auth/sign_up.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/buildStyleContainer.dart';
-import 'package:jobchat/view/common/customText.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/customeButton.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
+import 'package:jobchat/view/common/newTextField.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/screen/auth/login.dart';
@@ -75,67 +75,64 @@ class _registerPageState extends State<registerPage> {
                               style: appStyle(
                                   16, Color(kDarkGrey.value), FontWeight.w600)),
                           const heightSpacer(size: 50),
-                          customTextField(
-                            hintText: "Username",
-                            keyBoardType: TextInputType.name,
-                            controller: username,
-                            suffixIcon: Icon(
-                              Icons.person_2,
-                              color: Color(kDark.value),
-                            ),
-                            obsecureText: false,
-                            validator: (name) {
-                              if (name!.isEmpty || name.length < 5) {
-                                return "Please enter a valid username";
-                              }
-                              return null;
-                            },
-                          ),
-                          const heightSpacer(size: 20),
-                          customTextField(
-                            hintText: "Email",
-                            keyBoardType: TextInputType.emailAddress,
-                            controller: email,
-                            suffixIcon: Icon(
-                              Icons.email_outlined,
-                              color: Color(kDark.value),
-                            ),
-                            obsecureText: false,
-                            validator: (email) {
-                              if (email!.isEmpty || !email.contains("@")) {
-                                return "Please enter a valid email";
-                              } else {
+                          buildtextField(
+                              hintText: "Enter UserName",
+                              type: TextInputType.text,
+                              controller: username,
+                              suffixIcon: Icon(
+                                Icons.person_2,
+                                color: Color(kDark.value),
+                              ),
+                              obsecureText: false,
+                              validator: (name) {
+                                if (name!.isEmpty || name.length < 5) {
+                                  return "Please Enter Your Name";
+                                }
                                 return null;
-                              }
-                            },
-                          ),
+                              }),
                           const heightSpacer(size: 20),
-                          customTextField(
-                            hintText: "Password",
-                            keyBoardType: TextInputType.visiblePassword,
-                            controller: password,
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                signNotifier.obsecure = !signNotifier.obsecure;
+                          buildtextField(
+                              hintText: "Enter Your Email",
+                              type: TextInputType.emailAddress,
+                              controller: email,
+                              suffixIcon: Icon(
+                                Icons.email_outlined,
+                                color: Color(kDark.value),
+                              ),
+                              obsecureText: false,
+                              validator: (email) {
+                                if (email!.isEmpty || !email.contains("@")) {
+                                  return "Please Enter Your Email";
+                                }
+                                return null;
+                              }),
+                          const heightSpacer(size: 20),
+                          buildtextField(
+                              hintText: "Enter your password",
+                              controller: password,
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  signNotifier.obsecure =
+                                      !signNotifier.obsecure;
+                                },
+                                child: !signNotifier.obsecure
+                                    ? Icon(
+                                        Icons.visibility,
+                                        color: Color(kDark.value),
+                                      )
+                                    : Icon(Icons.visibility_off,
+                                        color: Color(kDark.value)),
+                              ),
+                              obsecureText: signNotifier.obsecure,
+                              validator: (password) {
+                                if (!signNotifier
+                                        .passwordValidator(password ?? '') ||
+                                    password!.isEmpty) {
+                                  return "Password atleast have  a Special character , Upper case letter , Lower case letter and Digit 0-9";
+                                }
+                                return null;
                               },
-                              child: !signNotifier.obsecure
-                                  ? Icon(
-                                      Icons.visibility,
-                                      color: Color(kDark.value),
-                                    )
-                                  : Icon(Icons.visibility_off,
-                                      color: Color(kDark.value)),
-                            ),
-                            obsecureText: signNotifier.obsecure,
-                            validator: (password) {
-                              if (!signNotifier
-                                      .passwordValidator(password ?? '') ||
-                                  password!.isEmpty) {
-                                return "Password atleast have  a Special character , Upper case letter , Lower case letter and Digit 0-9";
-                              }
-                              return null;
-                            },
-                          ),
+                              type: TextInputType.text),
                           const heightSpacer(size: 10),
                           Align(
                             alignment: Alignment.centerRight,

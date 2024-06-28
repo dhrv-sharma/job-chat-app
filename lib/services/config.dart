@@ -1,5 +1,6 @@
 class Config {
-  static const apiUrl = "job-server-host-9th.vercel.app";
+  static const apiUrl =
+      "job-server-host-9th-dhruv-sharmas-projects-9321143d.vercel.app";
   static const String loginUrl = "/api/auth/login";
   static const String signupUrl = "/api/auth/register";
   static const String jobs = "/api/job/";

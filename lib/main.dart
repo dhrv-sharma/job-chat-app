@@ -58,7 +58,6 @@ void main() async {
   userIdConst = userId;
 
   profileConst = profile;
-  print(profileConst);
 
   loggedInconst = loggedIn;
 

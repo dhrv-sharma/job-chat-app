@@ -91,224 +91,232 @@ class _addJobPageState extends State<addJobPage> {
               ))),
       body:
           Consumer<ProfileNotifier>(builder: (context, profileNotifier, child) {
-        return Stack(
-          children: [
-            Positioned(
-                child: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                  color: Colors.white),
-              child: buildStyleContainer(
-                  context,
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 8, bottom: 0, right: 8),
-                    child: Stack(
-                      children: [
-                        Form(
-                          key: _formKey,
-                          child: ListView(
+        return profileNotifier.uploadingJob
+            ? const PageLoader()
+            : Stack(
+                children: [
+                  Positioned(
+                      child: Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                        color: Colors.white),
+                    child: buildStyleContainer(
+                        context,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, bottom: 0, right: 8),
+                          child: Stack(
                             children: [
-                              const heightSpacer(size: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  reusableText(
-                                      text: "Company Logo",
-                                      style: appStyle(15, Color(kOrange.value),
-                                          FontWeight.w500)),
-                                  GestureDetector(
-                                      onTap: () {},
-                                      child: const Icon(Entypo.upload_to_cloud,
-                                          size: 32, color: Colors.blue))
-                                ],
-                              ),
-                              const heightSpacer(size: 5),
-                              profileNotifier.companyLogo
-                                  ? Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          profileNotifier.newJobImage();
-                                        },
-                                        child: Container(
-                                          width: 150,
-                                          height: 150,
-                                          decoration: BoxDecoration(
-                                            color: Colors
-                                                .white, // Background color
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color:
-                                                  Colors.white, // Border color
-                                              width: 4, // Border width
-                                            ),
-                                          ),
-                                          child: ClipOval(
-                                            child: Image.file(
-                                              profileNotifier.newJobImg!,
-                                              width: 150,
-                                              height: 150,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () async {
-                                        profileNotifier.newJobImage();
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: const Icon(
-                                          Icons.folder_open,
-                                          size: 60,
-                                        ),
-                                      ),
+                              Form(
+                                key: _formKey,
+                                child: ListView(
+                                  children: [
+                                    const heightSpacer(size: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        reusableText(
+                                            text: "Company Logo",
+                                            style: appStyle(
+                                                15,
+                                                Color(kOrange.value),
+                                                FontWeight.w500)),
+                                        GestureDetector(
+                                            onTap: () {},
+                                            child: const Icon(
+                                                Entypo.upload_to_cloud,
+                                                size: 32,
+                                                color: Colors.blue))
+                                      ],
                                     ),
-                              const heightSpacer(size: 5),
-                              buildtextField(
-                                hintText: "Job Title*",
-                                controller: title,
-                                label: "Title",
+                                    const heightSpacer(size: 5),
+                                    profileNotifier.companyLogo
+                                        ? Center(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                profileNotifier.newJobImage();
+                                              },
+                                              child: Container(
+                                                width: 150,
+                                                height: 150,
+                                                decoration: BoxDecoration(
+                                                  color: Colors
+                                                      .white, // Background color
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: Colors
+                                                        .white, // Border color
+                                                    width: 4, // Border width
+                                                  ),
+                                                ),
+                                                child: ClipOval(
+                                                  child: Image.file(
+                                                    profileNotifier.newJobImg!,
+                                                    width: 150,
+                                                    height: 150,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () async {
+                                              profileNotifier.newJobImage();
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: const Icon(
+                                                Icons.folder_open,
+                                                size: 60,
+                                              ),
+                                            ),
+                                          ),
+                                    const heightSpacer(size: 5),
+                                    buildtextField(
+                                      hintText: "Job Title*",
+                                      controller: title,
+                                      label: "Title",
+                                    ),
+                                    buildtextField(
+                                      hintText: "Location*",
+                                      controller: location,
+                                      label: "Location",
+                                    ),
+                                    buildtextField(
+                                      hintText: "Description*",
+                                      controller: description,
+                                      label: "Description",
+                                      maxLines: 6,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Agent Name*",
+                                      controller: agentName,
+                                      label: "Agent Name",
+                                    ),
+                                    buildtextField(
+                                      hintText: "Salary*",
+                                      controller: salary,
+                                      label: "Salary",
+                                    ),
+                                    buildtextField(
+                                      hintText: "weekly | Monthly | Annually *",
+                                      controller: period,
+                                      label: "Salary Period",
+                                      maxLines: 1,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Contract*",
+                                      controller: contract,
+                                      label: "Contract",
+                                    ),
+                                    buildtextField(
+                                      hintText: "Company*",
+                                      controller: company,
+                                      label: "Company",
+                                    ),
+                                    const heightSpacer(size: 20),
+                                    reusableText(
+                                        text: "Requirements",
+                                        style: appStyle(
+                                            15,
+                                            Color(kOrange.value),
+                                            FontWeight.w500)),
+                                    buildtextField(
+                                      hintText: "Requirement*",
+                                      controller: rq1,
+                                      maxLines: 2,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Requirement*",
+                                      controller: rq2,
+                                      maxLines: 2,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Requirement*",
+                                      controller: rq3,
+                                      maxLines: 2,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Requirement*",
+                                      controller: rq4,
+                                      maxLines: 2,
+                                    ),
+                                    buildtextField(
+                                      hintText: "Requirement*",
+                                      controller: rq5,
+                                      maxLines: 2,
+                                    ),
+                                    const heightSpacer(size: 70)
+                                  ],
+                                ),
                               ),
-                              buildtextField(
-                                hintText: "Location*",
-                                controller: location,
-                                label: "Location",
-                              ),
-                              buildtextField(
-                                hintText: "Description*",
-                                controller: description,
-                                label: "Description",
-                                maxLines: 6,
-                              ),
-                              buildtextField(
-                                hintText: "Agent Name*",
-                                controller: agentName,
-                                label: "Agent Name",
-                              ),
-                              buildtextField(
-                                hintText: "Salary*",
-                                controller: salary,
-                                label: "Salary",
-                              ),
-                              buildtextField(
-                                hintText: "weekly | Monthly | Annually *",
-                                controller: period,
-                                label: "Salary Period",
-                                maxLines: 1,
-                              ),
-                              buildtextField(
-                                hintText: "Contract*",
-                                controller: contract,
-                                label: "Contract",
-                              ),
-                              buildtextField(
-                                hintText: "Company*",
-                                controller: company,
-                                label: "Company",
-                              ),
-                              const heightSpacer(size: 20),
-                              reusableText(
-                                  text: "Requirements",
-                                  style: appStyle(15, Color(kOrange.value),
-                                      FontWeight.w500)),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq1,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq2,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq3,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq4,
-                                maxLines: 2,
-                              ),
-                              buildtextField(
-                                hintText: "Requirement*",
-                                controller: rq5,
-                                maxLines: 2,
-                              ),
-                              const heightSpacer(size: 70)
+                              Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 10,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (_formKey.currentState!.validate() &&
+                                          profileNotifier.companyLogo) {
+                                        profileNotifier.uploadJob(true);
+
+                                        CreateJobsRequest rawModel =
+                                            CreateJobsRequest(
+                                                title: title.text,
+                                                location: location.text,
+                                                company: company.text,
+                                                hiring: true,
+                                                description: description.text,
+                                                salary: salary.text,
+                                                period: period.text,
+                                                contract: contract.text,
+                                                imageUrl: profileNotifier
+                                                    .uploadedImage,
+                                                agentId: userIdConst,
+                                                agentName: agentName.text,
+                                                requirements: [
+                                              rq1.text,
+                                              rq2.text,
+                                              rq3.text,
+                                              rq4.text,
+                                              rq5.text,
+                                            ]);
+
+                                        var model =
+                                            createJobsRequestToJson(rawModel);
+                                        await profileNotifier.uploadImage(
+                                            agentName.text, model, context);
+                                      } else {
+                                        Get.snackbar("Invalid fields",
+                                            "Please fill out every fields",
+                                            colorText: Color(kLight.value),
+                                            backgroundColor:
+                                                Color(kOrange.value),
+                                            icon: const Icon(
+                                              Icons.add_alert,
+                                              color: Colors.white,
+                                            ),
+                                            borderRadius: 5);
+                                      }
+                                    },
+                                    child: customOutlineButton(
+                                      text: "Post Job",
+                                      height: hieght * 0.06,
+                                      color1: Color(kLight.value),
+                                      color2: Color(kOrange.value),
+                                    ),
+                                  ))
                             ],
                           ),
-                        ),
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 10,
-                            child: GestureDetector(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate() &&
-                                    profileNotifier.companyLogo) {
-                                  Center(
-                                    child: Container(
-                                        height: 40, child: const PageLoader()),
-                                  );
-
-                                  CreateJobsRequest rawModel =
-                                      CreateJobsRequest(
-                                          title: title.text,
-                                          location: location.text,
-                                          company: company.text,
-                                          hiring: true,
-                                          description: description.text,
-                                          salary: salary.text,
-                                          period: period.text,
-                                          contract: contract.text,
-                                          imageUrl:
-                                              profileNotifier.uploadedImage,
-                                          agentId: userIdConst,
-                                          agentName: agentName.text,
-                                          requirements: [
-                                        rq1.text,
-                                        rq2.text,
-                                        rq3.text,
-                                        rq4.text,
-                                        rq5.text,
-                                      ]);
-
-                                  var model = createJobsRequestToJson(rawModel);
-                                  await profileNotifier.uploadImage(
-                                      agentName.text, model, context);
-                                } else {
-                                  Get.snackbar("Invalid fields",
-                                      "Please fill out every fields",
-                                      colorText: Color(kLight.value),
-                                      backgroundColor: Color(kOrange.value),
-                                      icon: const Icon(
-                                        Icons.add_alert,
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: 5);
-                                }
-                              },
-                              child: customOutlineButton(
-                                text: "Post Job",
-                                height: hieght * 0.06,
-                                color1: Color(kLight.value),
-                                color2: Color(kOrange.value),
-                              ),
-                            ))
-                      ],
-                    ),
-                  )),
-            ))
-          ],
-        );
+                        )),
+                  ))
+                ],
+              );
       }),
     );
   }

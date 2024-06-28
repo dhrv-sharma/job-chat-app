@@ -133,7 +133,7 @@ class _profilePageState extends State<profilePage> {
                             const heightSpacer(size: 15),
                             Column(
                               children: [
-                                !prof.isAgent
+                                prof.isAgent
                                     ? Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -180,6 +180,13 @@ class _profilePageState extends State<profilePage> {
                                               width: width,
                                               onTap: () {
                                                 // warning to change function
+                                                profileNotifier.companyLogo =
+                                                    false;
+                                                profileNotifier.newJobImg =
+                                                    null;
+                                                profileNotifier.uploadedImage =
+                                                    "";
+
                                                 Get.to(() => addJobPage(
                                                       imageUrl: prof.profile,
                                                     ));
