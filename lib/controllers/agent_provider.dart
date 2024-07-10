@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/zoom_provider.dart';
-import 'package:jobchat/models/auth/profile_model.dart';
+import 'package:jobchat/models/agents.dart';
+import 'package:jobchat/models/getAgent.dart';
 import 'package:jobchat/services/agentHelper.dart';
 import 'package:jobchat/view/screen/home/mainscreen.dart';
-import 'package:jobchat/services/authHelper.dart';
 
 import 'package:provider/provider.dart';
 
@@ -18,6 +18,7 @@ class agentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+// to apply for agent
   void applyAgent(String model, BuildContext context) async {
     updates(true);
     agentHelper.becomeAgent(model).then((response) async {
@@ -52,5 +53,22 @@ class agentProvider extends ChangeNotifier {
         updates(false);
       }
     });
+  }
+
+  // importing agents from the server
+  late List<Agents> allAgents;
+
+  Future<List<Agents>?> getAllAgent() async {
+    var agents = agentHelper.getAgents();
+
+    return agents;
+  }
+
+  Agents? agent;
+
+  Future<GetAgent?> getAgentinfo(String uid) async {
+    var agentInfo = agentHelper.getSingleAgent(uid);
+
+    return agentInfo;
   }
 }

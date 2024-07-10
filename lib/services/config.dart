@@ -21,4 +21,5 @@ class Config {
   static const String updateProfile = "/api/user/update";
   static const String getAgents = "api/user/getAgents";
   static const String becomeAgent = "api/user/addAgent";
+  static const String getSingleAgent = "api/user/getAgent";
 }

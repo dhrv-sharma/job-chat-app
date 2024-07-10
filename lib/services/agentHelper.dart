@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:jobchat/models/agents.dart';
 import 'package:jobchat/models/getAgent.dart';
 import 'package:jobchat/services/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,6 @@ class agentHelper {
       return false;
     }
 
-    // /api/job/
     var url = Uri.https(Config.apiUrl, Config.becomeAgent);
 
     var response = await client.post(url, headers: requestHeaders, body: model);
@@ -39,7 +39,7 @@ class agentHelper {
     }
   }
 
-  static Future<List<GetAgent>?> getAgents() async {
+  static Future<List<Agents>?> getAgents() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -50,12 +50,11 @@ class agentHelper {
     };
 
     if (token == null) {
-      List<GetAgent> agent = [];
+      List<Agents> agent = [];
 
       return agent;
     }
 
-// /api/bookmark/
     var url = Uri.https(Config.apiUrl, Config.getAgents);
 
     var response = await client.get(
@@ -65,12 +64,43 @@ class agentHelper {
 
     // checking status cdode
     if (response.statusCode == 200) {
-      List<GetAgent> agent = [];
+      List<Agents> agent = [];
 
       List resAgent = jsonDecode(response.body);
       resAgent.forEach((element) {
-        agent.add(GetAgent.fromJson(element));
+        agent.add(Agents.fromJson(element));
       });
+
+      return agent;
+    } else {
+      throw Exception('Failed To Load Agents');
+    }
+  }
+
+  static Future<GetAgent?> getSingleAgent(String uid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    // step 1 headers required here we doing our authorization
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    if (token == null) {
+      return null;
+    }
+
+    var url = Uri.https(Config.apiUrl, '${Config.getSingleAgent}/${uid}');
+
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    // checking status cdode
+    if (response.statusCode == 200) {
+      var agent = getAgentFromJson(response.body);
 
       return agent;
     } else {
