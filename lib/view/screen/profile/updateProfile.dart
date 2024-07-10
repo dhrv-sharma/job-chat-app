@@ -219,6 +219,7 @@ class _updateProfileState extends State<updateProfile> {
                                               isAgent: widget.profile.isAgent,
                                               skills: skills,
                                               resume: widget.profile.resume,
+                                              uid: widget.profile.uid,
                                               profile: profileNotifier
                                                   .uploadedProfile!);
                                           var model =
@@ -231,6 +232,7 @@ class _updateProfileState extends State<updateProfile> {
                                               .uploadProfile(userName.text);
                                           res = ProfileRes(
                                               resume: widget.profile.resume,
+                                              uid: widget.profile.uid,
                                               id: widget.profile.id,
                                               username: userName.text,
                                               email: Email.text,

@@ -19,4 +19,6 @@ class Config {
   static const String deleteSkill = "/api/user/deleteSkill/";
   static const String addSkill = "/api/user/addSkill";
   static const String updateProfile = "/api/user/update";
+  static const String getAgents = "api/user/getAgents";
+  static const String becomeAgent = "api/user/addAgent";
 }

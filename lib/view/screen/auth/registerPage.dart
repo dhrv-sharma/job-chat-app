@@ -73,7 +73,7 @@ class _registerPageState extends State<registerPage> {
                               text:
                                   "Fill the details to sign up to your account",
                               style: appStyle(
-                                  16, Color(kDarkGrey.value), FontWeight.w600)),
+                                  16, Color(kOrange.value), FontWeight.w600)),
                           const heightSpacer(size: 50),
                           buildtextField(
                               hintText: "Enter UserName",

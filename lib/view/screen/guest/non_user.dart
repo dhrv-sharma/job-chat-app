@@ -32,7 +32,8 @@ class nonUser extends StatelessWidget {
             const heightSpacer(size: 20),
             reusableText(
                 text: "To access content please login",
-                style: appStyle(12, Color(kDarkGrey.value), FontWeight.normal)),
+                style:
+                    appStyle(12, Color(kBlueColor.value), FontWeight.normal)),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
               child: CustomOutlineBtn(

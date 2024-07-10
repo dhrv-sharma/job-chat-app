@@ -71,7 +71,7 @@ class _loginPageState extends State<loginPage> {
                             text:
                                 "Fill in the Details to login to  your account",
                             style: appStyle(
-                                14, Color(kDarkGrey.value), FontWeight.w400)),
+                                14, Color(kOrange.value), FontWeight.w600)),
                         const heightSpacer(size: 40),
                         buildtextField(
                             hintText: "Enter Your Email",

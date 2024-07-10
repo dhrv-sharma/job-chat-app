@@ -20,6 +20,7 @@ import 'package:jobchat/view/common/widthspacer.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
 import 'package:jobchat/view/screen/job/addJobs.dart';
+import 'package:jobchat/view/screen/profile/addAgent.dart';
 import 'package:jobchat/view/screen/profile/skills.dart';
 import 'package:jobchat/view/screen/profile/updateProfile.dart';
 import 'package:provider/provider.dart';
@@ -150,7 +151,17 @@ class _profilePageState extends State<profilePage> {
                                           CustomOutlineBtn(
                                               hieght: 40.h,
                                               width: width,
-                                              onTap: () {},
+                                              onTap: () {
+                                                profileNotifier.companyLogo =
+                                                    false;
+                                                profileNotifier.newJobImg =
+                                                    null;
+                                                profileNotifier.uploadedImage =
+                                                    "";
+                                                Get.to(() => addJobPage(
+                                                      imageUrl: prof.profile,
+                                                    ));
+                                              },
                                               text: "Add Job",
                                               color: Color(kOrange.value)),
                                           const heightSpacer(size: 10),
@@ -158,7 +169,8 @@ class _profilePageState extends State<profilePage> {
                                               hieght: 40.h,
                                               width: width,
                                               onTap: () {},
-                                              text: "Update Inforamation ",
+                                              text:
+                                                  "Update Agent Inforamation ",
                                               color: Color(kOrange.value))
                                         ],
                                       )
@@ -180,16 +192,9 @@ class _profilePageState extends State<profilePage> {
                                               width: width,
                                               onTap: () {
                                                 // warning to change function
-                                                profileNotifier.companyLogo =
-                                                    false;
-                                                profileNotifier.newJobImg =
-                                                    null;
-                                                profileNotifier.uploadedImage =
-                                                    "";
 
-                                                Get.to(() => addJobPage(
-                                                      imageUrl: prof.profile,
-                                                    ));
+                                                Get.to(() =>
+                                                    addAgent(profile: prof));
                                               },
                                               text: "Apply To Become An Agent",
                                               color: Color(kOrange.value)),
