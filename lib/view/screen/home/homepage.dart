@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
@@ -7,6 +8,7 @@ import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/drawer/bottomNavigationBar.dart';
 import 'package:jobchat/view/screen/home/alljobs.dart';
 import 'package:jobchat/view/screen/home/popularJobs.dart';
+import 'package:jobchat/view/screen/home/searchPage.dart';
 import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:jobchat/models/job.dart';
@@ -32,15 +34,11 @@ class _homePageState extends State<homePage> {
                 children: [
                   Row(
                     children: [
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            color: Colors.white,
-                          )),
+                      Expanded(flex: 2, child: Container()),
                       Expanded(
                           flex: 1,
                           child: Container(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withOpacity(0.1),
                           )),
                     ],
                   ),
@@ -179,7 +177,9 @@ Widget searchCard() {
 
 Widget searchBar() {
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      Get.to(() => searchPage());
+    },
     child: Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(

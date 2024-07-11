@@ -105,6 +105,7 @@ class jobHelper {
     if (response.statusCode == 200) {
       // decoded in to the list containing map items
       List res = jsonDecode(response.body);
+
       res.forEach((element) {
         // map items to job object
         jobList.add(Job.fromJson(element));
