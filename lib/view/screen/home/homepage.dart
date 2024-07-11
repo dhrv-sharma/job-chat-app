@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:get/get.dart';
-
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
-import 'package:jobchat/controllers/zoom_provider.dart';
-
 import 'package:jobchat/view/common/resuabletext.dart';
+import 'package:jobchat/view/drawer/bottomNavigationBar.dart';
 import 'package:jobchat/view/screen/home/alljobs.dart';
-import 'package:jobchat/view/screen/home/mainscreen.dart';
 import 'package:jobchat/view/screen/home/popularJobs.dart';
-
 import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:jobchat/models/job.dart';
@@ -26,112 +21,70 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
-    var zoomNotifier = Provider.of<ZoomNotifier>(context, listen: false);
     var loginNotfier = Provider.of<LoginNotifier>(context);
     loginNotfier.getData();
     return Consumer<ProfileNotifier>(
         builder: (context, profileNotifier, child) {
       return Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Row(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Stack(
                 children: [
-                  Expanded(flex: 2, child: Container()),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        color: Colors.grey.withOpacity(0.1),
-                      )),
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 2,
+                          child: Container(
+                            color: Colors.white,
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            color: Colors.grey.withOpacity(0.5),
+                          )),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      homeAppBar(
+                          userNameConst, profileNotifier.profileImage, context),
+                      searchCard(),
+                      tagList(
+                        selected: loginNotfier.selected,
+                      ),
+                      loginNotfier.selected == 0
+                          ? const allJobWidget()
+                          : loginNotfier.selected == 1
+                              ? const popularJobs()
+                              : Container(),
+                    ],
+                  )
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  homeAppBar(
-                      userNameConst, profileNotifier.profileImage, context),
-                  searchCard(),
-                  tagList(
-                    selected: loginNotfier.selected,
-                  ),
-                  loginNotfier.selected == 0
-                      ? const allJobWidget()
-                      : loginNotfier.selected == 1
-                          ? const popularJobs()
-                          : Container(),
-                ],
-              )
-            ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: accentColor,
-          elevation: 0,
-          onPressed: () {
-            var zoomDrawer = ZoomDrawer.of(context);
-            zoomDrawer!.toggle();
-          },
-          shape: const CircleBorder(),
-          child: const Icon(
-            Icons.menu_outlined,
-            color: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: accentColor,
+            elevation: 0,
+            onPressed: () {
+              var zoomDrawer = ZoomDrawer.of(context);
+              zoomDrawer!.toggle();
+            },
+            shape: const CircleBorder(),
+            child: const Icon(
+              Icons.menu_outlined,
+              color: Colors.white,
+            ),
           ),
-        ),
-        bottomNavigationBar: Theme(
-          data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent),
-          child: BottomNavigationBar(
-              onTap: (index) {
-                zoomNotifier.currentIndex = index;
-
-                Get.offAll(const mainScreen());
-              },
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              selectedItemColor: primaryColor,
-              currentIndex: zoomNotifier.currentIndex,
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
-                    label: "Home",
-                    icon: Icon(
-                      Icons.home,
-                      size: 20,
-                    )),
-                BottomNavigationBarItem(
-                    label: "Chats",
-                    icon: Icon(
-                      Icons.chat_outlined,
-                      size: 20,
-                    )),
-                BottomNavigationBarItem(
-                    label: "BookMark",
-                    icon: Icon(
-                      Icons.bookmark_border_outlined,
-                      size: 20,
-                    )),
-                BottomNavigationBarItem(
-                  label: "Application",
-                  icon: Icon(Icons.description_outlined),
-                ),
-                BottomNavigationBarItem(
-                    label: "Profile",
-                    icon: Icon(
-                      Icons.person,
-                      size: 20,
-                    )),
-              ]),
-        ),
-      );
+          bottomNavigationBar: const bottomNavigationBar());
     });
   }
 }
 
 Widget homeAppBar(String username, String profile, BuildContext context) {
   return Container(
-    padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top, left: 20, right: 25),
+    padding: const EdgeInsets.only(top: 35, left: 20, right: 25),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -145,12 +98,14 @@ Widget homeAppBar(String username, String profile, BuildContext context) {
                 text: "Welcome Home",
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.8),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16)),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18)),
             reusableText(
                 text: username == '' ? "Login to Apply Job" : username,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 28))
+                style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 28))
           ],
         ),
         Row(
@@ -295,12 +250,6 @@ class _tagListState extends State<tagList> {
     );
   }
 }
-
-// all job
-
-// popular job
-
-// bookmark job
 
 // job tile foreach job
 class jobTile extends StatefulWidget {

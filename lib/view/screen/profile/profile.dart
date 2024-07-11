@@ -17,9 +17,9 @@ import 'package:jobchat/view/common/heightSpacer.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
 import 'package:jobchat/view/common/widthspacer.dart';
+import 'package:jobchat/view/drawer/bottomNavigationBar.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
-import 'package:jobchat/view/screen/home/mainscreen.dart';
 import 'package:jobchat/view/screen/job/addJobs.dart';
 import 'package:jobchat/view/screen/profile/addAgent.dart';
 import 'package:jobchat/view/screen/profile/skills.dart';
@@ -44,7 +44,6 @@ class _profilePageState extends State<profilePage> {
     var profileNotifier = Provider.of<ProfileNotifier>(
       context,
     );
-    var zoomNotifier = Provider.of<ZoomNotifier>(context, listen: false);
     if (loginNotifier.loggedIn) {
       // get our data
 
@@ -52,226 +51,182 @@ class _profilePageState extends State<profilePage> {
       myProfile = profileNotifier.getProfile;
     }
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.h),
-          child: CustomAppbar(
-            text: loginNotifier.loggedIn
-                ? userNameConst.toUpperCase()
-                : "Profile",
-            actions: const [],
-            child: Padding(
-                padding: EdgeInsets.all(12.0.h), child: const DrawerWidget()),
-          )),
-      body: loginNotifier.loggedIn == false
-          ? const nonUser()
-          : FutureBuilder(
-              future: myProfile,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const PageLoader();
-                } else if (snapshot.hasError) {
-                  return const NoSearchResults(message: "Something Went Wrong");
-                } else {
-                  var prof = snapshot.data;
-                  return buildStyleContainer(
-                      context,
-                      ListView(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 5.w, right: 5.w),
-                            width: width,
-                            height: hieght * 0.1,
-                            decoration: BoxDecoration(
-                                color: Color(kGreen.value),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(12.2))),
-                            child: Stack(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50.h),
+            child: CustomAppbar(
+              text: loginNotifier.loggedIn
+                  ? userNameConst.toUpperCase()
+                  : "Profile",
+              actions: const [],
+              child: Padding(
+                  padding: EdgeInsets.all(12.0.h), child: const DrawerWidget()),
+            )),
+        body: loginNotifier.loggedIn == false
+            ? const nonUser()
+            : FutureBuilder(
+                future: myProfile,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const PageLoader();
+                  } else if (snapshot.hasError) {
+                    return const NoSearchResults(
+                        message: "Something Went Wrong");
+                  } else {
+                    var prof = snapshot.data;
+                    return buildStyleContainer(
+                        context,
+                        ListView(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 5.w, right: 5.w),
+                              width: width,
+                              height: hieght * 0.1,
+                              decoration: BoxDecoration(
+                                  color: Color(kGreen.value),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12.2))),
+                              child: Stack(
+                                children: [
+                                  Row(
+                                    children: [
+                                      circularAvtr(
+                                          image: prof!.profile,
+                                          width: 60,
+                                          height: 60),
+                                      const widthSpacer(size: 10),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          reusableText(
+                                              text: prof.username,
+                                              style: appStyle(
+                                                  14,
+                                                  Colors.black.withOpacity(0.8),
+                                                  FontWeight.w600)),
+                                          reusableText(
+                                              text: prof.email,
+                                              style: appStyle(
+                                                  14,
+                                                  Colors.black.withOpacity(0.8),
+                                                  FontWeight.w400))
+                                        ],
+                                      ),
+                                      const widthSpacer(size: 25),
+                                    ],
+                                  ),
+                                  Positioned(
+                                      right: 0..w,
+                                      top: 0.w,
+                                      bottom: 0.w,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Get.to(updateProfile(profile: prof));
+                                        },
+                                        child: const Icon(Feather.edit),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            const heightSpacer(size: 10),
+                            const skillWidget(),
+                            const heightSpacer(size: 15),
+                            Column(
                               children: [
-                                Row(
-                                  children: [
-                                    circularAvtr(
-                                        image: prof!.profile,
-                                        width: 60,
-                                        height: 60),
-                                    const widthSpacer(size: 10),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        reusableText(
-                                            text: prof.username,
-                                            style: appStyle(
-                                                14,
-                                                Colors.black.withOpacity(0.8),
-                                                FontWeight.w600)),
-                                        reusableText(
-                                            text: prof.email,
-                                            style: appStyle(
-                                                14,
-                                                Colors.black.withOpacity(0.8),
-                                                FontWeight.w400))
-                                      ],
-                                    ),
-                                    const widthSpacer(size: 25),
-                                  ],
-                                ),
-                                Positioned(
-                                    right: 0..w,
-                                    top: 0.w,
-                                    bottom: 0.w,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.to(updateProfile(profile: prof));
-                                      },
-                                      child: const Icon(Feather.edit),
-                                    ))
+                                prof.isAgent
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          resume(),
+                                          const heightSpacer(size: 20),
+                                          reusableText(
+                                              text: 'Agent Information',
+                                              style: appStyle(
+                                                  14,
+                                                  Color(kDark.value),
+                                                  FontWeight.w600)),
+                                          const heightSpacer(size: 20),
+                                          CustomOutlineBtn(
+                                              hieght: 40.h,
+                                              width: width,
+                                              onTap: () {
+                                                profileNotifier.companyLogo =
+                                                    false;
+                                                profileNotifier.newJobImg =
+                                                    null;
+                                                profileNotifier.uploadedImage =
+                                                    "";
+                                                Get.to(() => addJobPage(
+                                                      imageUrl: prof.profile,
+                                                    ));
+                                              },
+                                              text: "Add Job",
+                                              color: Color(kOrange.value)),
+                                          const heightSpacer(size: 10),
+                                          CustomOutlineBtn(
+                                              hieght: 40.h,
+                                              width: width,
+                                              onTap: () {},
+                                              text:
+                                                  "Update Agent Inforamation ",
+                                              color: Color(kOrange.value))
+                                        ],
+                                      )
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          reusableText(
+                                              text: 'Profile',
+                                              style: appStyle(
+                                                  14,
+                                                  Color(kDark.value),
+                                                  FontWeight.w600)),
+                                          const heightSpacer(size: 20),
+                                          resume(),
+                                          const heightSpacer(size: 20),
+                                          CustomOutlineBtn(
+                                              hieght: 40.h,
+                                              width: width,
+                                              onTap: () {
+                                                // warning to change function
+
+                                                Get.to(() =>
+                                                    addAgent(profile: prof));
+                                              },
+                                              text: "Apply To Become An Agent",
+                                              color: Color(kOrange.value)),
+                                        ],
+                                      ),
                               ],
                             ),
-                          ),
-                          const heightSpacer(size: 10),
-                          const skillWidget(),
-                          const heightSpacer(size: 15),
-                          Column(
-                            children: [
-                              prof.isAgent
-                                  ? Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        resume(),
-                                        const heightSpacer(size: 20),
-                                        reusableText(
-                                            text: 'Agent Information',
-                                            style: appStyle(
-                                                14,
-                                                Color(kDark.value),
-                                                FontWeight.w600)),
-                                        const heightSpacer(size: 20),
-                                        CustomOutlineBtn(
-                                            hieght: 40.h,
-                                            width: width,
-                                            onTap: () {
-                                              profileNotifier.companyLogo =
-                                                  false;
-                                              profileNotifier.newJobImg = null;
-                                              profileNotifier.uploadedImage =
-                                                  "";
-                                              Get.to(() => addJobPage(
-                                                    imageUrl: prof.profile,
-                                                  ));
-                                            },
-                                            text: "Add Job",
-                                            color: Color(kOrange.value)),
-                                        const heightSpacer(size: 10),
-                                        CustomOutlineBtn(
-                                            hieght: 40.h,
-                                            width: width,
-                                            onTap: () {},
-                                            text: "Update Agent Inforamation ",
-                                            color: Color(kOrange.value))
-                                      ],
-                                    )
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        reusableText(
-                                            text: 'Profile',
-                                            style: appStyle(
-                                                14,
-                                                Color(kDark.value),
-                                                FontWeight.w600)),
-                                        const heightSpacer(size: 20),
-                                        resume(),
-                                        const heightSpacer(size: 20),
-                                        CustomOutlineBtn(
-                                            hieght: 40.h,
-                                            width: width,
-                                            onTap: () {
-                                              // warning to change function
-
-                                              Get.to(() =>
-                                                  addAgent(profile: prof));
-                                            },
-                                            text: "Apply To Become An Agent",
-                                            color: Color(kOrange.value)),
-                                      ],
-                                    ),
-                            ],
-                          ),
-                          const heightSpacer(size: 20),
-                          CustomOutlineBtn(
-                              hieght: 40.h,
-                              width: width,
-                              onTap: () {
-                                loginNotifier.logout();
-                                var zoomNotifier = Provider.of<ZoomNotifier>(
-                                    context,
-                                    listen: false);
-                                zoomNotifier.currentIndex = 0;
-                                var profileNotifier =
-                                    Provider.of<ProfileNotifier>(context,
-                                        listen: false);
-                                profileNotifier.profileImage =
-                                    "https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg";
-                              },
-                              text: "Proceed To Logout",
-                              color: Color(kOrange.value))
-                        ],
-                      ));
-                }
-              }),
-      bottomNavigationBar: Theme(
-        data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent),
-        child: BottomNavigationBar(
-            onTap: (index) {
-              zoomNotifier.currentIndex = index;
-
-              Get.offAll(const mainScreen());
-            },
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            selectedItemColor: primaryColor,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
-            currentIndex: zoomNotifier.currentIndex,
-            items: const [
-              BottomNavigationBarItem(
-                  label: "Home",
-                  icon: Icon(
-                    Icons.home,
-                    size: 20,
-                  )),
-              BottomNavigationBarItem(
-                  label: "Chats",
-                  icon: Icon(
-                    Icons.chat_outlined,
-                    size: 20,
-                  )),
-              BottomNavigationBarItem(
-                  label: "BookMark",
-                  icon: Icon(
-                    Icons.bookmark_border_outlined,
-                    size: 20,
-                  )),
-              BottomNavigationBarItem(
-                label: "Application",
-                icon: Icon(Icons.description_outlined),
-              ),
-              BottomNavigationBarItem(
-                  label: "Profile",
-                  icon: Icon(
-                    Icons.person,
-                    size: 20,
-                  )),
-            ]),
-      ),
-    );
+                            const heightSpacer(size: 20),
+                            CustomOutlineBtn(
+                                hieght: 40.h,
+                                width: width,
+                                onTap: () {
+                                  loginNotifier.logout();
+                                  var zoomNotifier = Provider.of<ZoomNotifier>(
+                                      context,
+                                      listen: false);
+                                  zoomNotifier.currentIndex = 0;
+                                  var profileNotifier =
+                                      Provider.of<ProfileNotifier>(context,
+                                          listen: false);
+                                  profileNotifier.profileImage =
+                                      "https://res.cloudinary.com/dap69mong/image/upload/v1710654983/fbdrtr3b8spuotwu3r28.jpg";
+                                },
+                                text: "Proceed To Logout",
+                                color: Color(kOrange.value))
+                          ],
+                        ));
+                  }
+                }),
+        bottomNavigationBar: const bottomNavigationBar());
   }
 }
 

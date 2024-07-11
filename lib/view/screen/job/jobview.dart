@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/bookmark_provider.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/controllers/login_provider.dart';
+import 'package:jobchat/controllers/zoom_provider.dart';
 import 'package:jobchat/models/bookmark.dart/book_res.dart';
 import 'package:jobchat/models/job.dart';
-import 'package:jobchat/view/common/NoSearchResult.dart';
-import 'package:jobchat/view/common/appstyle.dart';
-import 'package:jobchat/view/common/buildStyleContainer.dart';
-import 'package:jobchat/view/common/custom_outline_btn.dart';
-import 'package:jobchat/view/common/customappBar.dart';
-import 'package:jobchat/view/common/custome_outline_btn.dart';
-import 'package:jobchat/view/common/heightSpacer.dart';
-import 'package:jobchat/view/common/pageloader.dart';
-import 'package:jobchat/view/common/resuabletext.dart';
+import 'package:jobchat/view/screen/home/homepage.dart';
+import 'package:jobchat/view/screen/home/mainscreen.dart';
+import 'package:jobchat/view/screen/job/fullJobView.dart';
+import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class jobView extends StatefulWidget {
@@ -41,16 +37,58 @@ class _jobViewState extends State<jobView> {
           id = widget.job!.id;
         }
         jobsNotifier.getJob(id);
-        return Scaffold(
-          appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: CustomAppbar(
-                  text: "",
-                  actions: [
-                    loginNotifier.loggedIn == false
-                        ? const SizedBox.shrink()
-                        : Consumer<BookMarkNotifier>(
-                            builder: (context, bookNotifier, child) {
+        return Container(
+          padding: const EdgeInsets.all(25),
+          height: 550,
+          width: width,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: SingleChildScrollView(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  height: 5,
+                  width: 60,
+                  color: Colors.grey.withOpacity(0.3),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey.withOpacity(0.1)),
+                        child: circularAvtr(
+                            image: widget.job!.imageUrl, width: 40, height: 40),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        widget.job!.company.toString(),
+                        style: const TextStyle(fontSize: 16),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      loginNotifier.loggedIn == false
+                          ? const SizedBox.shrink()
+                          : Consumer<BookMarkNotifier>(
+                              builder: (context, bookNotifier, child) {
                               bookNotifier.getBookMark(id);
                               return GestureDetector(
                                 onTap: () {
@@ -64,182 +102,131 @@ class _jobViewState extends State<jobView> {
                                     bookNotifier.addBookMark(encModel);
                                   }
                                 },
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 14.w),
-                                  child: Icon(
-                                    bookNotifier.bookmarkget == true
-                                        ? Fontisto.bookmark_alt
-                                        : Fontisto.bookmark,
-                                  ),
-                                ),
+                                child: Icon(
+                                    bookNotifier.bookmarkget
+                                        ? Icons.bookmark
+                                        : Icons.bookmark_outline_outlined,
+                                    color: bookNotifier.bookmarkget
+                                        ? primaryColor
+                                        : Colors.black),
                               );
-                            },
-                          )
-                  ],
-                  child: const BackButton())),
-          body: buildStyleContainer(
-              context,
-              // <We have to put that parameter on which my UI getting dependent here we are waiting for Job >
-              FutureBuilder<Job>(
-                  future: jobsNotifier.job,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      // runs when the future builder loading data
-                      return const Center(
-                        child: PageLoader(),
-                      );
-                    } else if (snapshot.hasError) {
-                      // when there is some error
-                      return Text("Error: +${snapshot.error}");
-                    } else if (snapshot.data == Null) {
-                      // not able to find
-                      return const NoSearchResults(message: "Not able to Load");
-                    } else {
-                      // job found
-                      final job = snapshot.data;
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: Stack(
+                            }),
+                      GestureDetector(
+                          onTap: () {
+                            Get.to(() => fullJobView(
+                                  job: widget.job,
+                                ));
+                          },
+                          child: const Icon(Icons.more_horiz_outlined))
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                widget.job!.title.toString(),
+                style:
+                    const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  iconText(widget.job!.location, Icons.location_on_outlined,
+                      Colors.yellow),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  iconText(widget.job!.contract, Icons.access_time_outlined,
+                      Colors.yellow),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  iconText(
+                      widget.job!.salary, Icons.payment_outlined, Colors.green),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Text("/${widget.job!.period}")
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Requirement : ",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ...widget.job!.requirements
+                  .map((req) => Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ListView(
-                              padding: EdgeInsets.zero,
-                              children: [
-                                Container(
-                                  width: width,
-                                  height: hieght * 0.27,
-                                  decoration: BoxDecoration(
-                                      color: Color(kLightGrey.value)
-                                          .withOpacity(0.2),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/jobs.png"),
-                                          opacity: 0.25),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(9.w))),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 30.w,
-                                        backgroundImage:
-                                            NetworkImage(job!.imageUrl),
-                                      ),
-                                      const heightSpacer(size: 10),
-                                      reusableText(
-                                          text: job.title,
-                                          style: appStyle(
-                                              16,
-                                              Color(kDark.value),
-                                              FontWeight.w600)),
-                                      const heightSpacer(size: 10),
-                                      reusableText(
-                                          text: job.location,
-                                          style: appStyle(
-                                              16,
-                                              Color(kDark.value)
-                                                  .withOpacity(0.7),
-                                              FontWeight.w600)),
-                                      const heightSpacer(size: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 50),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CustomOutlineBtn(
-                                                width: width * 0.26,
-                                                hieght: hieght * 0.04,
-                                                text: job.contract,
-                                                color: Color(kOrange.value)),
-                                            Row(
-                                              children: [
-                                                reusableText(
-                                                    text: job.salary,
-                                                    style: appStyle(
-                                                        16,
-                                                        Color(kDark.value),
-                                                        FontWeight.w600)),
-                                                reusableText(
-                                                    text: "/${job.period}",
-                                                    style: appStyle(
-                                                        16,
-                                                        Color(kDark.value)
-                                                            .withOpacity(0.7),
-                                                        FontWeight.w600)),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const heightSpacer(size: 20),
-                                reusableText(
-                                    text: "Description",
-                                    style: appStyle(18, Color(kDark.value),
-                                        FontWeight.bold)),
-                                const heightSpacer(size: 10),
-                                Text(
-                                  job.description,
-                                  textAlign: TextAlign.justify,
-                                  maxLines: 9,
-                                  style: appStyle(
-                                      12,
-                                      Color(kDark.value).withOpacity(0.72),
-                                      FontWeight.w600),
-                                ),
-                                const heightSpacer(size: 10),
-                                reusableText(
-                                    text: "Requirements",
-                                    style: appStyle(18, Color(kDark.value),
-                                        FontWeight.bold)),
-                                const heightSpacer(size: 10),
-                                SizedBox(
-                                  height: hieght * 0.6,
-                                  child: ListView.builder(
-                                      itemCount: job.requirements.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        var requirement =
-                                            job.requirements[index];
-                                        String bullet = '\u2022';
-                                        return Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: 12.w),
-                                          child: Text(
-                                            "${bullet}  ${requirement}",
-                                            style: appStyle(
-                                                12,
-                                                Color(kDark.value)
-                                                    .withOpacity(0.72),
-                                                FontWeight.bold),
-                                          ),
-                                        );
-                                      }),
-                                )
-                              ],
+                            Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              height: 5,
+                              width: 5,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.black),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: customOutlineButton(
-                                    text: loginNotifier.loggedIn == false
-                                        ? "Please Login"
-                                        : "Apply now",
-                                    height: hieght * 0.06,
-                                    color1: Color(kLight.value),
-                                    color2: Color(kOrange.value),
-                                  )),
-                            )
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 300),
+                                child: Text(
+                                  req,
+                                  style: const TextStyle(
+                                      wordSpacing: 2.5, height: 1.5),
+                                ))
                           ],
                         ),
-                      );
+                      ))
+                  .toList(),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 25),
+                height: 45,
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (loginNotifier.loggedIn) {
+                    } else {
+                      var zoomNotifier =
+                          Provider.of<ZoomNotifier>(context, listen: false);
+
+                      zoomNotifier.currentIndex = 4;
+
+                      Get.offAll(const mainScreen());
                     }
-                  })),
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  child: Text(
+                    loginNotifier.loggedIn == false
+                        ? "Please Login"
+                        : "Apply now",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            ],
+          )),
         );
       },
     );

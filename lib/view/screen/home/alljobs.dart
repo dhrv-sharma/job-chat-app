@@ -3,6 +3,7 @@ import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/jobs_provider.dart';
 import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/screen/home/homepage.dart';
+import 'package:jobchat/view/screen/job/jobview.dart';
 import 'package:provider/provider.dart';
 
 class allJobWidget extends StatelessWidget {
@@ -38,10 +39,20 @@ class allJobWidget extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Builder(builder: (context) {
-                          return jobTile(
-                            job: job[index],
-                            showTime: true,
-                            bookmarked: false,
+                          return GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  builder: (context) =>
+                                      jobView(job: job[index]));
+                            },
+                            child: jobTile(
+                              job: job[index],
+                              showTime: true,
+                              bookmarked: false,
+                            ),
                           );
                         });
                       },

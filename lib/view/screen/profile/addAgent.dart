@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/agent_provider.dart';
-import 'package:jobchat/controllers/profile_provider.dart';
 import 'package:jobchat/models/auth/profile_model.dart';
 import 'package:jobchat/models/createAgent.dart';
 import 'package:jobchat/view/common/appstyle.dart';

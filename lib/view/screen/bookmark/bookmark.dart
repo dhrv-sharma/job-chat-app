@@ -12,7 +12,7 @@ import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
 import 'package:jobchat/view/screen/home/homepage.dart';
-import 'package:jobchat/view/screen/job/jobview.dart';
+import 'package:jobchat/view/screen/job/fullJobView.dart';
 import 'package:provider/provider.dart';
 
 class bookaMark extends StatefulWidget {
@@ -90,7 +90,11 @@ class _bookaMarkState extends State<bookaMark> {
                                         return const NoSearchResults(
                                             message: "No Job is BookMarked");
                                       }
-                                      return ListView.builder(
+                                      return ListView.separated(
+                                          separatorBuilder: (_, index) =>
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
                                           itemCount: bookList.length,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, index) {
@@ -98,7 +102,7 @@ class _bookaMarkState extends State<bookaMark> {
 
                                             return GestureDetector(
                                               onTap: () {
-                                                Get.to(() => jobView(
+                                                Get.to(() => fullJobView(
                                                       jobId: book.job.id,
                                                     ));
                                               },
