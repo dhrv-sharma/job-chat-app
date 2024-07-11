@@ -40,6 +40,11 @@ const kBlueColor = Color(0xFF3281E3);
 const kGreen = Color(0xFFEFFFFC);
 
 
+const primaryColor = Color(0xFF43B1B7);
+
+const accentColor = Color(0xFFFED408);
+
+
 double hieght = 812.h;
 
 

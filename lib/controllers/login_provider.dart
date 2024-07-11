@@ -297,5 +297,20 @@ class LoginNotifier extends ChangeNotifier {
 
   }
 
+
+  int selected = 0;
+
+
+  int _selected() => selected;
+
+
+  void change(int index) {
+
+    selected = index;
+
+    notifyListeners();
+
+  }
+
 }
 

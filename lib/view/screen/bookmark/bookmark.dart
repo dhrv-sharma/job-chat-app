@@ -10,8 +10,8 @@ import 'package:jobchat/view/common/buildStyleContainer.dart';
 import 'package:jobchat/view/common/customappBar.dart';
 import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/drawer/drawer_widget.dart';
-import 'package:jobchat/view/screen/bookmark/bookMarkTile.dart';
 import 'package:jobchat/view/screen/guest/non_user.dart';
+import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:jobchat/view/screen/job/jobview.dart';
 import 'package:provider/provider.dart';
 
@@ -96,13 +96,21 @@ class _bookaMarkState extends State<bookaMark> {
                                           itemBuilder: (context, index) {
                                             final book = bookList[index];
 
-                                            return bookMarkTile(
-                                              bookMark: book,
+                                            return GestureDetector(
                                               onTap: () {
                                                 Get.to(() => jobView(
                                                       jobId: book.job.id,
                                                     ));
                                               },
+                                              child: BookMarkTile(
+                                                  imageUrl: book.job.imageUrl,
+                                                  company: book.job.company,
+                                                  contract: book.job.contract,
+                                                  location: book.job.location,
+                                                  title: book.job.title,
+                                                  agentName: book.job.agentName,
+                                                  bookmarked: true,
+                                                  showTime: true),
                                             );
                                           });
                                     }

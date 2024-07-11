@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
@@ -87,6 +88,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  screen util is used for adaptive size and remove resoultion problem
+
+    // hiding Status bar
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return ScreenUtilInit(
         useInheritedMediaQuery: true,

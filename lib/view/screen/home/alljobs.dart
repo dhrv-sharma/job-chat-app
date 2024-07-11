@@ -5,21 +5,20 @@ import 'package:jobchat/models/job.dart';
 import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:provider/provider.dart';
 
-// this gives all recent jobs
-class popularJobs extends StatelessWidget {
-  const popularJobs({super.key});
+class allJobWidget extends StatelessWidget {
+  const allJobWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     // future builder is wrapped inside the the consumer widget
     return Consumer<JobsNotifier>(builder: (context, JobsNotifier, child) {
-      JobsNotifier.getRecentJobs();
+      JobsNotifier.getAllJobs();
       return SizedBox(
         height: hieght * 0.28,
         // <We have to put that parameter on which my UI getting dependent here we are waiting for JobList  >
 
         child: FutureBuilder<List<Job>>(
-            future: JobsNotifier.getRecentJobs(),
+            future: JobsNotifier.getAllJobs(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
