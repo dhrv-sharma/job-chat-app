@@ -92,7 +92,7 @@ class _searchPageState extends State<searchPage> {
                                           child: jobTile(
                                               job: mJob,
                                               showTime: true,
-                                              bookmarked: true));
+                                              hiring: job[index].hiring));
                                     }),
                               );
                             }

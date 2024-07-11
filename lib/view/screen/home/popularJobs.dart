@@ -42,7 +42,7 @@ class popularJobs extends StatelessWidget {
                           return jobTile(
                             job: job[index],
                             showTime: true,
-                            bookmarked: false,
+                            hiring: job[index].hiring,
                           );
                         });
                       },

@@ -212,7 +212,7 @@ class tagList extends StatefulWidget {
 }
 
 class _tagListState extends State<tagList> {
-  final tagList = <String>["All", "⚡ Recent", "⭐ BookMarked"];
+  final tagList = <String>["⭐ All", "⚡ Recent"];
   @override
   Widget build(BuildContext context) {
     var loginNotfier = Provider.of<LoginNotifier>(context);
@@ -257,12 +257,12 @@ class jobTile extends StatefulWidget {
       {super.key,
       required this.job,
       required this.showTime,
-      required this.bookmarked});
+      required this.hiring});
 
   final Job job;
 
   final bool showTime;
-  final bool bookmarked;
+  final bool hiring;
 
   @override
   State<jobTile> createState() => _jobTileState();
@@ -306,14 +306,14 @@ class _jobTileState extends State<jobTile> {
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(width: 70),
                 ],
               ),
-              Icon(
-                  widget.bookmarked
-                      ? Icons.bookmark
-                      : Icons.bookmark_outline_outlined,
-                  color: widget.bookmarked ? primaryColor : Colors.black)
+              Text(
+                widget.job.hiring ? "Hiring" : "Closed",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: widget.job.hiring ? Colors.green : Colors.red),
+              ),
             ],
           ),
           const SizedBox(
@@ -373,7 +373,7 @@ class BookMarkTile extends StatelessWidget {
       required this.location,
       required this.title,
       required this.agentName,
-      required this.bookmarked,
+      required this.hiring,
       required this.showTime});
   String imageUrl;
   String company;
@@ -381,7 +381,7 @@ class BookMarkTile extends StatelessWidget {
   String location;
   String title;
   String agentName;
-  bool bookmarked;
+  bool hiring;
   bool showTime;
 
   Widget build(BuildContext context) {
@@ -423,9 +423,12 @@ class BookMarkTile extends StatelessWidget {
                   const SizedBox(width: 70),
                 ],
               ),
-              Icon(
-                  bookmarked ? Icons.bookmark : Icons.bookmark_outline_outlined,
-                  color: bookmarked ? primaryColor : Colors.black)
+              Text(
+                hiring ? "Hiring" : "Closed",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: hiring ? Colors.green : Colors.red),
+              ),
             ],
           ),
           const SizedBox(

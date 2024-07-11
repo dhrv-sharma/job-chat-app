@@ -113,7 +113,7 @@ class _bookaMarkState extends State<bookaMark> {
                                                   location: book.job.location,
                                                   title: book.job.title,
                                                   agentName: book.job.agentName,
-                                                  bookmarked: true,
+                                                  hiring: book.job.hiring,
                                                   showTime: true),
                                             );
                                           });

@@ -83,9 +83,15 @@ class _fullJobViewState extends State<fullJobView> {
                                     onTap: () {
                                       Get.back();
                                     },
-                                    child: const Icon(
-                                      Icons.arrow_back_ios_outlined,
-                                      size: 30,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
+                                          color: primaryColor,
+                                          shape: BoxShape.circle),
+                                      child: const Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                      ),
                                     )),
                                 const widthSpacer(size: 10),
                                 Container(

@@ -51,7 +51,7 @@ class allJobWidget extends StatelessWidget {
                             child: jobTile(
                               job: job[index],
                               showTime: true,
-                              bookmarked: false,
+                              hiring: job[index].hiring,
                             ),
                           );
                         });
