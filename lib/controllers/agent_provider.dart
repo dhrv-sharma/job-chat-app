@@ -4,6 +4,7 @@ import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/zoom_provider.dart';
 import 'package:jobchat/models/agents.dart';
 import 'package:jobchat/models/getAgent.dart';
+import 'package:jobchat/models/job.dart';
 import 'package:jobchat/services/agentHelper.dart';
 import 'package:jobchat/view/screen/home/mainscreen.dart';
 
@@ -70,5 +71,12 @@ class agentProvider extends ChangeNotifier {
     var agentInfo = agentHelper.getSingleAgent(uid);
 
     return agentInfo;
+  }
+
+  late Future<List<Job>?> agentJobs;
+
+  Future<List<Job>?> getAgentJobs(String uid) {
+    agentJobs = agentHelper.getAgentJobs(uid);
+    return agentJobs;
   }
 }

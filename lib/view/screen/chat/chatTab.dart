@@ -83,6 +83,7 @@ class _chatTabState extends State<chatTab> {
                                     return GestureDetector(
                                       onTap: () {
                                         // function
+
                                         agentNotifier.agent =
                                             snapshot.data![index];
                                         Get.to(() => const agentDetailPage());

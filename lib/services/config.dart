@@ -22,4 +22,5 @@ class Config {
   static const String getAgents = "api/user/getAgents";
   static const String becomeAgent = "api/user/addAgent";
   static const String getSingleAgent = "api/user/getAgent";
+  static const String getAgentJob = "/api/job/getAgentJob";
 }

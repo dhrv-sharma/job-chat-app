@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:jobchat/models/agents.dart';
 import 'package:jobchat/models/getAgent.dart';
+import 'package:jobchat/models/job.dart';
 import 'package:jobchat/services/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as https;
@@ -103,6 +104,46 @@ class agentHelper {
       var agent = getAgentFromJson(response.body);
 
       return agent;
+    } else {
+      throw Exception('Failed To Load Agents');
+    }
+  }
+
+  static Future<List<Job>?> getAgentJobs(String uid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    // step 1 headers required here we doing our authorization
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token'
+    };
+
+    if (token == null) {
+      List<Job> jobs = [];
+
+      return jobs;
+    }
+
+    var url = Uri.https(Config.apiUrl, "${Config.getAgentJob}/${uid}");
+    print(url);
+
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    // checking status cdode
+    if (response.statusCode == 200) {
+      List<Job> jobs = [];
+
+      List resJobs = jsonDecode(response.body);
+      print(response.body);
+      resJobs.forEach((element) {
+        jobs.add(Job.fromJson(element));
+      });
+
+      return jobs;
     } else {
       throw Exception('Failed To Load Agents');
     }

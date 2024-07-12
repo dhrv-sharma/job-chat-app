@@ -7,6 +7,7 @@ import 'package:jobchat/controllers/agent_provider.dart';
 import 'package:jobchat/models/getAgent.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
+import 'package:jobchat/view/screen/chat/agentJob.dart';
 import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class agentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var agentClicked = Provider.of<agentProvider>(context);
+
     return Scaffold(
       backgroundColor: const Color(0xff171717),
       appBar: AppBar(
@@ -166,14 +168,14 @@ class agentDetailPage extends StatelessWidget {
               right: 0,
               left: 0,
               child: Container(
-                width: width,
-                height: hieght,
-                decoration: BoxDecoration(
-                    color: Color(kLight.value),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.w),
-                        topRight: Radius.circular(20.w))),
-              ))
+                  height: hieght,
+                  width: width,
+                  decoration: BoxDecoration(
+                      color: Color(kLight.value),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.w),
+                          topRight: Radius.circular(20.w))),
+                  child: agentJob(uid: agentClicked.agent!.userid)))
         ],
       ),
     );
