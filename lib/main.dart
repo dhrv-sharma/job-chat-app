@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:jobchat/controllers/login_provider.dart';
 import 'package:jobchat/controllers/profile_provider.dart';
 import 'package:jobchat/controllers/searchNotifer.dart';
 import 'package:jobchat/controllers/skills_provider.dart';
+import 'package:jobchat/firebase_options.dart';
 
 // directory add in this way
 import 'package:jobchat/view/screen/boarding/boardingscreen.dart';
@@ -25,7 +27,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // entry point of the program
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // multiproviders
   // runApp(MultiProvider(providers: const [
   //   // ChangeNotifierProvider(create: (context) => OnBoardNotifier()),

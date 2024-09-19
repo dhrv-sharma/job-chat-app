@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -6,21 +5,31 @@ import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/agent_provider.dart';
 import 'package:jobchat/models/agents.dart';
+import 'package:jobchat/models/auth/profile_model.dart';
+import 'package:jobchat/models/chatttedPeople.dart';
+import 'package:jobchat/models/message.dart';
+import 'package:jobchat/services/chat_service.dart';
+import 'package:jobchat/view/common/NoSearchResult.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/heightSpacer.dart';
+import 'package:jobchat/view/common/pageloader.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
+import 'package:jobchat/view/common/widthspacer.dart';
 import 'package:jobchat/view/screen/chat/agentDetails.dart';
 import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class chatTab extends StatefulWidget {
-  const chatTab({super.key});
+  chatTab({super.key, required this.myProfile});
+
+  ProfileRes myProfile;
 
   @override
   State<chatTab> createState() => _chatTabState();
 }
 
 class _chatTabState extends State<chatTab> {
+  chatServices chatDetails = chatServices();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -86,10 +95,14 @@ class _chatTabState extends State<chatTab> {
 
                                         agentNotifier.agent =
                                             snapshot.data![index];
-                                        Get.to(() => const agentDetailPage());
+                                        Get.to(() => agentDetailPage(
+                                              myProfile: widget.myProfile,
+                                            ));
                                       },
-                                      child: buildAgentAvatar(
-                                          agent.username, agent.profile),
+                                      child: widget.myProfile.uid != agent.uid
+                                          ? buildAgentAvatar(
+                                              agent.username, agent.profile)
+                                          : const SizedBox.shrink(),
                                     );
                                   }),
                             );
@@ -111,14 +124,97 @@ class _chatTabState extends State<chatTab> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.w),
                       topRight: Radius.circular(20.w))),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 15, right: 8, top: 9, bottom: 0),
+                child: FutureBuilder<chatPeople?>(
+                    future: chatDetails.getBubble(widget.myProfile),
+                    builder: (context, snapShot) {
+                      if (snapShot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          width: width,
+                          child: const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                        );
+                      } else if (snapShot.hasError) {
+                        return Text("Error ${snapShot.error}");
+                      } else {
+                        var chatRow = snapShot.data!;
+
+                        if (chatRow.uniqueID.isEmpty) {
+                          return const NoSearchResults(
+                              message: "Not Applied For Any Job");
+                        }
+                        return ListView.separated(
+                            separatorBuilder: (_, index) => const SizedBox(
+                                  height: 9,
+                                ),
+                            itemCount: chatRow.uniqueID.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              final msg = chatRow.messages[index];
+
+                              return GestureDetector(
+                                  onTap: () {},
+                                  child:
+                                      buildChatRow(msg, widget.myProfile.uid));
+                            });
+                      }
+                    }),
+              ),
             ))
       ],
     );
   }
 }
 
-// agent avatar circular image
+// conversation row
+Column buildChatRow(message msg, String myId) {
+  return Column(
+    children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          circularAvtr(
+              image: myId == msg.senderId
+                  ? msg.recieverProfile
+                  : msg.senderProfile,
+              width: 50,
+              height: 50),
+          const widthSpacer(size: 15),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const heightSpacer(size: 5),
+              reusableText(
+                  text: myId == msg.senderId
+                      ? msg.recieverUsername
+                      : msg.senderUsername,
+                  style:
+                      appStyle(12, Color(primaryColor.value), FontWeight.w600)),
+              SizedBox(
+                  width: width * 0.7,
+                  child: reusableText(
+                      text: msg.msg,
+                      style: appStyle(
+                          12, Colors.black.withOpacity(0.8), FontWeight.w500)))
+            ],
+          )
+        ],
+      ),
+      const heightSpacer(size: 8),
+      Container(
+        decoration: BoxDecoration(color: Colors.black.withOpacity(0.1)),
+        width: width,
+        height: 1,
+      )
+    ],
+  );
+}
 
+// agent avatar circular image
 Padding buildAgentAvatar(String name, String profileImage) {
   return Padding(
     padding: EdgeInsets.only(right: 15.w),

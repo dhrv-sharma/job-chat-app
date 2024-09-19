@@ -126,7 +126,6 @@ class agentHelper {
     }
 
     var url = Uri.https(Config.apiUrl, "${Config.getAgentJob}/${uid}");
-    print(url);
 
     var response = await client.get(
       url,
@@ -138,7 +137,6 @@ class agentHelper {
       List<Job> jobs = [];
 
       List resJobs = jsonDecode(response.body);
-      print(response.body);
       resJobs.forEach((element) {
         jobs.add(Job.fromJson(element));
       });

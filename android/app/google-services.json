@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954862977297",
+    "project_id": "jobsearch-4868f",
+    "storage_bucket": "jobsearch-4868f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954862977297:android:d24f13c66cc8995bf1ccb0",
+        "android_client_info": {
+          "package_name": "com.example.jobchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTgmv8EtTMDAunclXoctG0se5pjzx6WsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

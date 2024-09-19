@@ -3,16 +3,23 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/agent_provider.dart';
+import 'package:jobchat/models/agents.dart';
+import 'package:jobchat/models/auth/profile_model.dart';
 import 'package:jobchat/models/job.dart';
+import 'package:jobchat/services/chat_service.dart';
 import 'package:jobchat/view/common/NoSearchResult.dart';
-import 'package:jobchat/view/common/pageloader.dart';
-import 'package:jobchat/view/screen/home/homepage.dart';
 import 'package:jobchat/view/screen/job/fullJobView.dart';
 import 'package:provider/provider.dart';
 
 class agentJob extends StatefulWidget {
-  agentJob({super.key, required this.uid});
+  agentJob(
+      {super.key,
+      required this.uid,
+      required this.myProfile,
+      required this.agent});
   String uid;
+  ProfileRes myProfile;
+  Agents agent;
 
   @override
   State<agentJob> createState() => _agentJobState();
@@ -57,9 +64,12 @@ class _agentJobState extends State<agentJob> {
                             ));
                           },
                           child: applyJobTile(
-                              job: mJob,
-                              showTime: true,
-                              hiring: job[index].hiring));
+                            job: mJob,
+                            showTime: true,
+                            hiring: job[index].hiring,
+                            agent: widget.agent,
+                            myProfile: widget.myProfile,
+                          ));
                     }),
               );
             }
@@ -73,8 +83,12 @@ class applyJobTile extends StatefulWidget {
       {super.key,
       required this.job,
       required this.showTime,
-      required this.hiring});
+      required this.hiring,
+      required this.myProfile,
+      required this.agent});
   final Job job;
+  final ProfileRes myProfile;
+  final Agents agent;
 
   final bool showTime;
   final bool hiring;
@@ -123,11 +137,18 @@ class _applyJobTileState extends State<applyJobTile> {
                   ),
                 ],
               ),
-              Text(
-                widget.job.hiring ? "Hiring" : "Closed",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: widget.job.hiring ? Colors.green : Colors.red),
+              GestureDetector(
+                onTap: () {
+                  chatServices srv = chatServices();
+
+                  srv.getBubble(widget.myProfile);
+                },
+                child: Text(
+                  widget.job.hiring ? "Hiring" : "Closed",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: widget.job.hiring ? Colors.green : Colors.red),
+                ),
               ),
             ],
           ),
@@ -154,21 +175,9 @@ class _applyJobTileState extends State<applyJobTile> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  child: const Text(
-                    "Apply now",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
+              if (widget.showTime)
+                iconText(widget.job.contract, Icons.access_time_outlined,
+                    Colors.yellow)
             ],
           ),
           const SizedBox(
@@ -179,9 +188,26 @@ class _applyJobTileState extends State<applyJobTile> {
             children: [
               iconText(widget.job.location, Icons.location_on_outlined,
                   Colors.yellow),
-              if (widget.showTime)
-                iconText(widget.job.contract, Icons.access_time_outlined,
-                    Colors.yellow)
+              widget.job.hiring
+                  ? SizedBox(
+                      height: 30,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          chatServices srv = chatServices();
+                          srv.applyJob(widget.myProfile, widget.agent);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
+                        child: const Text(
+                          "Apply now",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink()
             ],
           )
         ],

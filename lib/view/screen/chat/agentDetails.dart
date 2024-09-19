@@ -4,6 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:jobchat/constants/app_constants.dart';
 import 'package:jobchat/controllers/agent_provider.dart';
+import 'package:jobchat/models/auth/profile_model.dart';
 import 'package:jobchat/models/getAgent.dart';
 import 'package:jobchat/view/common/appstyle.dart';
 import 'package:jobchat/view/common/resuabletext.dart';
@@ -12,7 +13,9 @@ import 'package:jobchat/view/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class agentDetailPage extends StatelessWidget {
-  const agentDetailPage({super.key});
+  agentDetailPage({super.key, required this.myProfile});
+
+  ProfileRes myProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +178,11 @@ class agentDetailPage extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20.w),
                           topRight: Radius.circular(20.w))),
-                  child: agentJob(uid: agentClicked.agent!.userid)))
+                  child: agentJob(
+                    uid: agentClicked.agent!.userid,
+                    agent: agentClicked.agent!,
+                    myProfile: myProfile,
+                  )))
         ],
       ),
     );
