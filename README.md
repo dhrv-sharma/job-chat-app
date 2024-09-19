@@ -26,16 +26,26 @@ The app is built with a cutting-edge tech stack to ensure a robust and scalable 
 
 🔸 **Node.js**, **MongoDB**, and **Express**: Forming the backbone of the app’s backend, these technologies provide a powerful, flexible, and scalable environment for handling data and server-side operations.
 
+<img width="644" alt="sc1" src="https://github.com/user-attachments/assets/e3a7301e-b667-420d-8c85-2b5f0acb39fc">
 
-<img width="644" alt="sc1" src="https://github.com/user-attachments/assets/895d5cee-737e-4e79-9a14-a294d6513574">
+
+<img width="656" alt="sc2" src="https://github.com/user-attachments/assets/b0f53c91-9130-4ca0-a4ff-fb9236df75c1">
 
 
-<img width="656" alt="sc2" src="https://github.com/user-attachments/assets/b2e4d61e-5d98-4e8e-904d-fb1e9c59858a">
+<img width="649" alt="sc3" src="https://github.com/user-attachments/assets/ef4d67aa-3af5-4636-bb34-4010ba444a90">
 
-<img width="656" alt="sc2" src="https://github.com/user-attachments/assets/a2431711-2ec0-414b-96c0-1f2ea3a9c101">
-![a9](https://github.com/user-attachments/assets/868a0414-7c52-4f0e-b8a2-14032bcf3ffd)
-<img width="644" alt="sc1" src="https://github.com/user-attachments/assets/688ed0fb-ee8b-4795-9be2-3fe2c1714d73">
-![a9](https://github.com/user-attachments/assets/d2834f0d-df95-401b-85ec-1700bcce0d4c)
+
+<img width="656" alt="sc4" src="https://github.com/user-attachments/assets/e2b2ae72-88f3-459a-b3f0-fa10c54f4ac9">
+
+
+<img width="654" alt="sc5" src="https://github.com/user-attachments/assets/1584819e-8cc2-4180-a5a1-75619b74fe03">
+
+
+<img width="653" alt="sc7" src="https://github.com/user-attachments/assets/0db082b5-2fd8-45a0-bb87-53a33daf39ed">
+
+
+<img width="652" alt="sc8" src="https://github.com/user-attachments/assets/052abc74-6669-4a87-882a-443d974b258e">
+
 
 
 
