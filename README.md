@@ -26,7 +26,23 @@ The app is built with a cutting-edge tech stack to ensure a robust and scalable 
 
 🔸 **Node.js**, **MongoDB**, and **Express**: Forming the backbone of the app’s backend, these technologies provide a powerful, flexible, and scalable environment for handling data and server-side operations.
 
+
+<img width="644" alt="sc1" src="https://github.com/user-attachments/assets/895d5cee-737e-4e79-9a14-a294d6513574">
+
+
+<img width="656" alt="sc2" src="https://github.com/user-attachments/assets/b2e4d61e-5d98-4e8e-904d-fb1e9c59858a">
+
+<img width="656" alt="sc2" src="https://github.com/user-attachments/assets/a2431711-2ec0-414b-96c0-1f2ea3a9c101">
+![a9](https://github.com/user-attachments/assets/868a0414-7c52-4f0e-b8a2-14032bcf3ffd)
+<img width="644" alt="sc1" src="https://github.com/user-attachments/assets/688ed0fb-ee8b-4795-9be2-3fe2c1714d73">
+![a9](https://github.com/user-attachments/assets/d2834f0d-df95-401b-85ec-1700bcce0d4c)
+
+
+
+
+
 This project has been a remarkable journey of learning and growth, and I am incredibly proud of the outcome. I want to extend my gratitude to everyone who supported me throughout this project. Your feedback and encouragement were invaluable!
+
 
 Looking forward to exploring new opportunities and challenges in the realm of mobile development. If you're interested in learning more about this project or potential collaborations, feel free to reach out!
 
